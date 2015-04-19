@@ -1,5 +1,6 @@
 # Burgess_CSCI2270_FinalProject
 <h2>Project Summary</h2>
+<p> In this project we are creating a game involving graphs. There will be a board displayed on screen with various positons connected by paths. The player will start somewhere on the map, the goal will be to get to the end position. The computer will try to stop the player by moving its piece along the paths towards the player.  If the computer moves in to the same positon as the player the player loses. </p>
 <h2>How to Run</h2>
 <h2>Dependencies</h2>
 <h2>System Requirements</h2>
