@@ -15,13 +15,13 @@ struct adjvertex
 {
 	vertex *v;
 	int weight;
-}
+};
 
-class Map
+class Graph
 {
-Public:
-Private:
+public:
+private:
 	std::vector<vertex> vertices;
-}
+};
 
 #endif
