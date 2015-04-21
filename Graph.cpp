@@ -2,6 +2,7 @@
 
 // Error Checking Messages
 const std::string INDEX_NOT_VALID = "Please choose a valid index";
+const std::string FILE_OPEN_ERROR = "File did not open, map not populated";
 
 Graph::Graph()
 {
@@ -14,7 +15,6 @@ Graph::~Graph()
 }
 
 //Setters
-
 // Sets the xpos of the vertex at the give index
 void Graph::setXpos(int vertexIndex, int inXpos)
 {
@@ -43,9 +43,9 @@ void Graph::setYpos(int vertexIndex, int inYpos)
 }
 /* Adds a vertex to the graph. Takes an x and y position and weather or not
    the vertex has be visited */
-void Graph::addVertex(int inXpos, int inYpos, bool inVisited)
+void Graph::addVertex(int inXpos, int inYpos, int inId, bool inVisited)
 {
-    vertex temp(inXpos,inYpos,inVisited);
+    vertex temp(inXpos,inYpos,inId,inVisited);
     vertices.push_back(temp);
 }
 
@@ -101,4 +101,78 @@ bool Graph::isInVertices(int index)
         return false;
     }
 
+}
+
+// Map Methods
+
+// Takes the name of the map file and populates the graph with the nodes used and edges
+// needs full documentation
+void Graph::createMap(std::string mapFileName)
+{
+    //open file
+    createMapHelper(mapFileName);
+
+}
+// needs full documentation
+bool Graph::createMapHelper(std::string mapFileName)
+{
+    //open file
+    std::ifstream mapFile;
+    mapFile.open(mapFileName);
+
+    if(mapFile.is_open())
+    {
+        int row = 0;
+        int col = 0;
+        int numEntry = 0;
+        std::string line;
+        std::string token;
+
+        getline(mapFile,line); // first line contains other information
+        while(getline(mapFile,line))
+        {
+            token = getCommaSeparatedWord(&line);
+            token = getCommaSeparatedWord(&line);
+            if(stoi(token) != -1)
+            {
+                vertex temp(0,0,numEntry,false);
+                vertices.push_back(temp);
+                std::cout << numEntry << std::endl;
+            }
+            numEntry++;
+        }
+
+        // need to add adj vers.
+    }
+    else
+    {
+        std::cout << FILE_OPEN_ERROR << std::endl;
+        return false;
+    }
+}
+//
+int Graph::getNumCommas(std::string line)
+{
+    int numCommas = 0;
+    for(int i = 0; i < line.size(); i++)
+    {
+        if(line[i] == ',')
+        {
+            numCommas++;
+        }
+    }
+    return numCommas;
+}
+
+std::string Graph::getCommaSeparatedWord(std::string *_line)
+{
+    int i = 0;
+    std::string word = "NONE";
+    while(_line->at(i)!= ',')
+    {
+        i++;
+    }
+    word = _line->substr(0,i);
+    *_line = _line->substr(i+1,std::string::npos);
+    return word;
 }
