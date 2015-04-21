@@ -122,38 +122,57 @@ bool Graph::createMapHelper(std::string mapFileName)
 
     if(mapFile.is_open())
     {
-        int row = 0;
-        int col = 0;
-        int numEntry = 0;
+        //int row = 0;
+        //int col = 0;
         std::string line;
         std::string token;
-        std::vector<std::string> lines;
-
+        std::vector<std::vector<int> > mapVec {{-1}};
+        mapVec.pop_back();
         getline(mapFile,line); // first line contains other information
-        while(getline(mapFile,line))
+        int numEntry = 0;
+        int commas = 0;
+        int tempID = 0;
+        while(getline(mapFile,line)) // make map vector
         {
-            lines.push_back(line);
-        }
-        for(int i = 0;i < lines.size();i++)
-        {
-            line = lines[i];
-            token = getCommaSeparatedWord(&line);
-            token = getCommaSeparatedWord(&line);
-            if(stoi(token) != -1)
+            commas = getNumCommas(line);
+            std::vector<int> tempVec; // vector to hold each line is pushed into map
+            for(int i = 0; i < commas;i++)
             {
-                vertex temp(0,0,numEntry,false);
-                vertices.push_back(temp);
-                std::cout << numEntry << std::endl;
+                token = getCommaSeparatedWord(&line);
+                tempID = stoi(token);
+                tempVec.push_back(tempID);
             }
-            numEntry++;
+            mapVec.push_back(tempVec);
         }
-
-        // need to add adj vers.
+        for(unsigned i = 0; i < mapVec.size(); i++)
+        {
+            if(mapVec[i][1] != -1) // If vertex is used
+            {   std::cout << mapVec[i][0] << std::endl;
+                vertex temp(0,0,mapVec[i][0],false);// Put vertex in verticies with id
+                vertices.push_back(temp);
+            }
+            else
+            {
+                mapVec.erase(mapVec.begin()+i);
+                i--;
+            }
+        }
+        /*for(int i = 0; i< mapVec.size();i++)
+        {
+            for(int j = 0; j < mapVec[i].size(); j++)
+            {
+                std::cout << mapVec[i][j] << " ";
+            }
+            std::cout << std::endl;
+        }*/
+        for(unsigned i = 0; i < vertices.size(); i++)
+        {
+            std::cout << vertices[i].id << std::endl;
+        }
     }
     else
     {
         std::cout << FILE_OPEN_ERROR << std::endl;
-        return false;
     }
 }
 //
@@ -181,4 +200,23 @@ std::string Graph::getCommaSeparatedWord(std::string *_line)
     word = _line->substr(0,i);
     *_line = _line->substr(i+1,std::string::npos);
     return word;
+}
+
+// Others
+int Graph::findVertex(int inId)
+{
+    int i = 0;
+    bool found = false;
+    while(i < vertices.size() && !found)
+    {
+        if(vertices[i].id == inId)
+        {
+           found = true;
+        }
+        i++;
+    }
+    if(found)
+        return i -1;
+    else
+        return -1;
 }

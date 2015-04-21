@@ -59,6 +59,10 @@ class Graph
         void setMapSize(std::string line);
         int getNumCommas(std::string line);
         std::string getCommaSeparatedWord(std::string *_line);
+
+        //Other
+        int findVertex(int inId);
+
 };
 
 #endif // GRAPH_H
