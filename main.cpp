@@ -167,9 +167,9 @@ int main()
 #define GLFW_DLL
 #include "/usr/local/include/GLFW/glfw3.h"
 #include <iostream>
-//heyyyy
 
 using namespace std;
+
 
 int main( void )
 {
@@ -456,8 +456,10 @@ int main( void )
     GLint XPos2 = glGetUniformLocation(shader_programme2, "Xposition2");
     GLint YPos2 = glGetUniformLocation(shader_programme2, "Yposition2");
     
-
+    int state = 0;
     
+    glUniform1f(XPos, 0.5);
+        glUniform1f(YPos, 0.5);
     
     while (!glfwWindowShouldClose(window)) {
         
@@ -467,18 +469,26 @@ int main( void )
 
         glBindVertexArray(vao);
         
-        glUniform1f(XPos, (x/320) - 1.0);
-        glUniform1f(YPos, (y/250) - 1.0);
+        
         glUniform3f(uniColor, (y/630) -0.1 , (x/240), (x/640) -0.4); //take out color from shader to modify
         
         
+        state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
         
+        if (state == GLFW_PRESS)
+        {
+            glUniform1f(XPos, x/(320) -1.0);
+            glUniform1f(YPos, y/(240) - 1.0);
+        }
         
         
         
         glfwGetCursorPos(window, &x,&y);
         cout << "x:" << x << endl;
         cout << "y:" << y << endl;
+        
+        
+        
         
         //glBindVertexArrayAPPLE(vao);
         glDrawArrays(GL_TRIANGLES, 0, 18);
