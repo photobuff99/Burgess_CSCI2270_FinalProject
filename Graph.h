@@ -10,7 +10,7 @@ struct vertex
 	int xpos;
 	int ypos;
 	int id; // Numbered in order when add to graph
-	std::vector<adjvertex*> adj;
+	std::vector<adjvertex> adj;
 	bool visited;
 	vertex();
 	vertex(int inXpos, int inYpos,int inId, bool inVisited)
@@ -28,6 +28,12 @@ struct adjvertex
 {
 	vertex *v;
 	int weight;
+	adjvertex();
+	adjvertex(vertex * inV, int inWeight)
+	{
+        v = inV;
+        weight = inWeight;
+	}
 };
 
 class Graph
