@@ -127,10 +127,16 @@ bool Graph::createMapHelper(std::string mapFileName)
         int numEntry = 0;
         std::string line;
         std::string token;
+        std::vector<std::string> lines;
 
         getline(mapFile,line); // first line contains other information
         while(getline(mapFile,line))
         {
+            lines.push_back(line);
+        }
+        for(int i = 0;i < lines.size();i++)
+        {
+            line = lines[i];
             token = getCommaSeparatedWord(&line);
             token = getCommaSeparatedWord(&line);
             if(stoi(token) != -1)
