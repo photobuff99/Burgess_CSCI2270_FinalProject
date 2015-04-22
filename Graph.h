@@ -10,8 +10,10 @@ struct vertex
 	int xpos;
 	int ypos;
 	int id; // Numbered in order when add to graph
+	int distance;
 	std::vector<adjvertex> adj;
 	bool visited;
+	vertex* pVertex;
 	vertex();
 	vertex(int inXpos, int inYpos,int inId, bool inVisited)
 	{
@@ -21,6 +23,8 @@ struct vertex
             ypos = inYpos;
             visited = inVisited;
             id = inId;
+            distance = -1;
+            pVertex = NULL;
         }
 	}
 };
@@ -56,11 +60,14 @@ class Graph
         void createMap(std::string mapFileName);
     protected:
     private:
-        std::vector<vertex> vertices;
         const int MAP_ROWS = 8; // Map size in vertices
         const int MAP_COLS = 12;
+        static const int MAP_SIZE = 96;
+        std::vector<vertex> vertices;
+
         // Path Finding
-        void shortestPath(int startIndex, int endIndex);
+        vertex *shortestPath(int startIndex, int endIndex);
+        int path[MAP_SIZE];
         //Map Creation Helpers
         bool createMapHelper(std::string mapFileName);
         void setMapSize(std::string line);

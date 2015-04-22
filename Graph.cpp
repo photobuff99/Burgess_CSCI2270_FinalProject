@@ -1,4 +1,5 @@
 #include "Graph.h"
+#include <queue>
 
 // Error Checking Messages
 const std::string INDEX_NOT_VALID = "Please choose a valid index";
@@ -111,7 +112,7 @@ void Graph::createMap(std::string mapFileName)
 {
     //open file
     createMapHelper(mapFileName);
-
+    std::cout << shortestPath(0,6)->id << std::endl;
 }
 // needs full documentation
 bool Graph::createMapHelper(std::string mapFileName)
@@ -224,4 +225,44 @@ int Graph::findVertex(int inId)
         return i -1;
     else
         return -1;
+}
+// PathFinding
+vertex* Graph::shortestPath(int startIndex, int endIndex)
+{
+    std::queue<vertex*> Q;
+    vertex * u;
+    vertex * w;
+    vertex * start = &vertices[startIndex];
+    vertex * ending = &vertices[endIndex];
+    for(unsigned i = 0; i < vertices.size(); i++)
+    {
+        vertices[i].visited = false;
+    }
+    start->visited = true;
+    start->distance = 0;
+    Q.push(start);
+    while(!Q.empty())
+    {
+        u = Q.front();
+        Q.pop();
+        for(unsigned i = 0; i < u->adj.size(); i++)
+        {
+            w = u->adj[i].v;
+            if(w->visited == false)
+            {
+                w->pVertex = u;
+                w->distance = u->distance + 1;
+                if(w == ending)
+                {
+                    return w;
+                }
+                else
+                {
+                    w->visited = true;
+                    Q.push(w);
+                }
+            }
+        }
+    }
+    return NULL;
 }
