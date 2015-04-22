@@ -41,8 +41,8 @@ void Graph::setYpos(int vertexIndex, int inYpos)
         std::cout << INDEX_NOT_VALID << std::endl;
     }
 }
-/* Adds a vertex to the graph. Takes an x and y position and weather or not
-   the vertex has be visited */
+// Adds a vertex to the graph. Takes an x and y position and weather or not
+// the vertex has be visited
 void Graph::addVertex(int inXpos, int inYpos, int inId, bool inVisited)
 {
     vertex temp(inXpos,inYpos,inId,inVisited);
@@ -90,7 +90,7 @@ bool Graph::getVisited(int vertexIndex)
 
 // Checkers
 // Given an index in the Vertices vector it checks if it is within the vector
-bool Graph::isInVertices(int index)
+bool Graph::isInVertices(unsigned index)
 {
     if (index < vertices.size())
     {
@@ -171,7 +171,6 @@ bool Graph::createMapHelper(std::string mapFileName)
                 vertices[i].adj.push_back(temp);
             }
         }
-        return true;
     }
     else
     {
@@ -179,6 +178,7 @@ bool Graph::createMapHelper(std::string mapFileName)
         return false;
     }
     mapFile.close();
+    return true;
 }
 //
 int Graph::getNumCommas(std::string line)

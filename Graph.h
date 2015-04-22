@@ -51,7 +51,7 @@ class Graph
         int getXpos(int vertexIndex);
         bool getVisited(int vertexIndex);
         //Checkers
-        bool isInVertices(int index);
+        bool isInVertices(unsigned index);
         //Map Creation
         void createMap(std::string mapFileName);
     protected:
@@ -59,7 +59,8 @@ class Graph
         std::vector<vertex> vertices;
         const int MAP_ROWS = 8; // Map size in vertices
         const int MAP_COLS = 12;
-
+        // Path Finding
+        void shortestPath(int startIndex, int endIndex);
         //Map Creation Helpers
         bool createMapHelper(std::string mapFileName);
         void setMapSize(std::string line);
