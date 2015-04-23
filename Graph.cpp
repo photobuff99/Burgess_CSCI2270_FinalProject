@@ -112,7 +112,6 @@ void Graph::createMap(std::string mapFileName)
 {
     //open file
     createMapHelper(mapFileName);
-    std::cout << shortestPath(0,6)->id << std::endl;
 }
 // needs full documentation
 bool Graph::createMapHelper(std::string mapFileName)
@@ -151,7 +150,7 @@ bool Graph::createMapHelper(std::string mapFileName)
         {
             if(mapVec[i][1] != -1) // If vertex is used
             {   row = mapVec[i][0] % MAP_ROWS; col = mapVec[i][0] / MAP_ROWS;
-                vertex temp(row,col,mapVec[i][0],false);// Put vertex in verticies with id
+                vertex temp(col,row,mapVec[i][0],false);// Put vertex in verticies with id
                 vertices.push_back(temp);
                 std::cout << "Adding: " << mapVec[i][0] << " Row: "<< row << " Col: "<< col << std::endl;
             }
@@ -172,6 +171,23 @@ bool Graph::createMapHelper(std::string mapFileName)
                 vertices[i].adj.push_back(temp);
             }
         }
+        for(unsigned i = 0; i < vertices.size(); i++)
+        {
+            for(unsigned j = 0; j < vertices[i].adj.size();j++)
+                {
+
+                    vertices[i].adj[j].location = findLocation(i,j);
+                }
+        }
+        for (unsigned i = 0; i < vertices.size(); i++)
+        {
+            //std::cout << "Id: " << vertices[i].id << std::endl;
+            for(unsigned j = 0; j < vertices[i].adj.size();j++)
+                {
+                   //std::cout << " |Adj: " << vertices[i].adj[j].v->id << " Loc: " << vertices[i].adj[j].location << " |";
+                }
+            //std::cout << std::endl;
+        }
     }
     else
     {
@@ -181,7 +197,53 @@ bool Graph::createMapHelper(std::string mapFileName)
     mapFile.close();
     return true;
 }
-//
+// Given the index of a vertex and one of its adjcent vertices finds the location od adj vertex.
+int Graph::findLocation(unsigned verIndex, unsigned adjVerIndex)
+{
+    int xVer, yVer, xAdj, yAdj;
+    xVer = vertices[verIndex].xpos;
+    yVer = vertices[verIndex].ypos;
+    xAdj = vertices[verIndex].adj[adjVerIndex].v->xpos;
+    yAdj = vertices[verIndex].adj[adjVerIndex].v->ypos;
+    //std::cout << vertices[verIndex].adj[adjVerIndex].v->id << " X: " << xAdj << " Y: " << yAdj << std::endl;
+    if(xVer-1 == xAdj && yVer-1 == yAdj)
+    {
+        return 0;
+    }
+    else if(xVer == xAdj && yVer-1 == yAdj)
+    {
+        return 1;
+    }
+    else if(xVer+1 == xAdj && yVer-1 == yAdj)
+    {
+        return 2;
+    }
+    else if(xVer+1 == xAdj && yVer == yAdj)
+    {
+        return 3;
+    }
+    else if(xVer+1 == xAdj && yVer+1 == yAdj)
+    {
+        return 4;
+    }
+    else if(xVer == xAdj && yVer+1 == yAdj)
+    {
+        return 5;
+    }
+    else if(xVer-1 == xAdj && yVer+1 == yAdj)
+    {
+        return 6;
+    }
+    else if(xVer-1 == xAdj && yVer == yAdj)
+    {
+        return 7;
+    }
+    else
+    {
+        return -1;
+    }
+
+}
 int Graph::getNumCommas(std::string line)
 {
     int numCommas = 0;
@@ -265,4 +327,18 @@ vertex* Graph::shortestPath(int startIndex, int endIndex)
         }
     }
     return NULL;
+}
+vertex* Graph::getNextMove(vertex * terminalVer)
+{
+    vertex * u;
+    vertex * j;
+    vertex * w;
+    u = terminalVer;
+    while( u != NULL)
+    {
+        w = j;
+        j = u;
+        u = u->pVertex;
+    }
+    return w;
 }

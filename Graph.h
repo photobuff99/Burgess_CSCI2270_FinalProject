@@ -32,6 +32,7 @@ struct adjvertex
 {
 	vertex *v;
 	int weight;
+	int location;
 	adjvertex();
 	adjvertex(vertex * inV, int inWeight)
 	{
@@ -66,12 +67,14 @@ class Graph
         std::vector<vertex> vertices;
 
         // Path Finding
-        vertex *shortestPath(int startIndex, int endIndex);
-        int path[MAP_SIZE];
+        vertex * shortestPath(int startIndex, int endIndex);
+        vertex * getNextMove(vertex * terminalVer);
+        //int path[MAP_SIZE];
         //Map Creation Helpers
         bool createMapHelper(std::string mapFileName);
         void setMapSize(std::string line);
         int getNumCommas(std::string line);
+        int findLocation(unsigned verIndex, unsigned adjVerIndex);
         std::string getCommaSeparatedWord(std::string *_line);
 
         //Other
