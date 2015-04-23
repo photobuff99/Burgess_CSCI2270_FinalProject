@@ -374,12 +374,20 @@ void Graph::drawMap()
 
     for (unsigned i = 0; i < vertices.size(); i++)
     {
+
         for (unsigned j = 0; j < vertices[i].adj.size(); j++)
         {
             drawLine(&vertices[i], vertices[i].adj[j].v, 0.01);
         }
+        glColor3b(207, 52, 0);
+        drawNodes(&vertices[i], .04);
     }
-    drawLine(&vertices[0], &vertices[1], .01);
+    glColor3b(120, 96, 100);
+    for (unsigned i = 0; i < vertices.size(); i++)
+    {
+        drawNodes(&vertices[i], .04);
+    }
+    //drawLine(&vertices[0], &vertices[1], .01);
 }
 void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
 {
@@ -502,12 +510,12 @@ void Graph::drawNodes(vertex* ver, double _size)
 {
         glBegin(GL_TRIANGLE_FAN);
         glVertex2d(getGlx(ver),getGly(ver));
-        for(int i =0; i <= 40; i++)
+        for(int i =0; i <= 6; i++)
         {
-            double angle = 2 * 3.14159 * i / 15;
+            double angle = 2 * 3.14159 * i / 6;
             double x = cos(angle);
             double y = sin(angle);
-            glVertex2d(x*_size,y*_size);
+            glVertex2d(x*_size + getGlx(ver),y*_size + getGly(ver));
         }
         glEnd();
 }

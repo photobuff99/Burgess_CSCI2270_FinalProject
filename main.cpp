@@ -26,8 +26,8 @@ void currentDrawState(double X, double Y, int width, int height)
 
 int main(int argc, char * argv[])
 {
-    int width = 600;
-    int height = 400;
+    int width = 1000;
+    int height = 1000;
     GLFWwindow* window;
     glfwSetErrorCallback(error_callback);
     if (!glfwInit())
