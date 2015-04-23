@@ -149,6 +149,7 @@ bool Graph::createMapHelper(std::string mapFileName)
             for(int i = 0; i < commas;i++)
             {
                 token = getCommaSeparatedWord(&line);
+                
                 tempID = stoi(token);
                 tempVec.push_back(tempID);
             }
@@ -354,42 +355,152 @@ vertex* Graph::getNextMove(vertex * terminalVer)
     return w;
 }
 // Drawing
-double Graph::getGlx(int verIndex)
+double Graph::getGlx(vertex * ver)
 {
-    int xTempPos = vertices[verIndex].xpos ;
+    int xTempPos = ver->xpos;
     double y;
     y = ((double)xTempPos)/6.0 - 11.0/12.0;
     return y;
 }
-double Graph::getGly(int verIndex)
+double Graph::getGly(vertex * ver)
 {
-    int yTempPos = vertices[verIndex].ypos ;
+    int yTempPos = ver->ypos;
     double y;
     y = (-(double)yTempPos)/(4.0) + (7.0/8.0);
     return y;
 }
 void Graph::drawMap()
 {
-}
-void Graph::drawLine(int ver1, int ver2, double thickness)
-{
-    double cenx1,ceny1,cenx2,ceny2;
-    cenx1 = getGlx(ver1);ceny1 = getGly(ver1);
-    cenx2 = getGlx(ver2);ceny2 = getGly(ver2);
-    thickness = 0.2;
-    // shearch for index in ver1's adj list for ver2 id
-    int adjLocation = 0;
-    for(int i = 0; i <vertices[ver1].adj.size(); i++)
+    
+    for (int i = 0; i < vertices.size(); i++)
     {
-        if(&vertices[ver2] == vertices[ver1].adj[i].v)
+        for (int j = 0; j < vertices[i].adj.size(); j++)
         {
-          adjLocation = vertices[ver1].adj[i].location;
+            drawLine(&vertices[i], vertices[i].adj[j].v, 0.01);
         }
     }
-
-    if (adjlocation == 0)
+    
+    
+}
+void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
+{
+    double cenx1,ceny1,cenx2,ceny2;
+    cenx1 = getGlx(ver1);
+    ceny1 = getGly(ver1);
+    cenx2 = getGlx(ver2);
+    ceny2 = getGly(ver2);
+    std::cout << cenx1 << " " << cenx2 << std::endl;
+    // search for index in ver1's adj list for ver2 id
+    int adjLocation = -1;
+    bool found = false;
+    
+    for(int i = 0; i < ver1->adj.size(); i++)
     {
-        glVertex2f(cenx2 + thickness/sqrt(2), ceny1 + thickness/sqrt(2));
+        
+        if(ver2 == ver1->adj[i].v)
+        {
+            std::cout << "DDDDDDDDDDD" << std::endl;
+            adjLocation = ver1->adj[i].location;
+            found = true;
+        }
+        
+        
+    }
+   
+    
+        if (adjLocation == 0)
+        {
+        glColor3b(58, 67, 70);
+        glBegin(GL_QUADS);
+        glVertex2f(cenx2 + thickness/sqrt(2), ceny2 + thickness/sqrt(2));
+        glVertex2f(cenx2 - thickness/sqrt(2), ceny2 - thickness/sqrt(2));
+        glVertex2f(cenx1 - thickness/sqrt(2), ceny1 - thickness/sqrt(2));
+        glVertex2f(cenx1 + thickness/sqrt(2), ceny1 + thickness/sqrt(2));
+        glEnd();
+        }
+    
+        else if (adjLocation == 4)
+        {
+        glColor3b(58, 67, 70);
+        glBegin(GL_QUADS);
+        glVertex2f(cenx1 + thickness/sqrt(2), ceny1 + thickness/sqrt(2));
+        glVertex2f(cenx1 - thickness/sqrt(2), ceny1 - thickness/sqrt(2));
+        glVertex2f(cenx2 - thickness/sqrt(2), ceny2 - thickness/sqrt(2));
+        glVertex2f(cenx2 + thickness/sqrt(2), ceny2 + thickness/sqrt(2));
+        glEnd();
+        }
+    
+        else if (adjLocation == 6)
+        {
+        glColor3b(58, 67, 70);
+        glBegin(GL_QUADS);
+        glVertex2f(cenx2 - thickness/sqrt(2), ceny1 + thickness/sqrt(2));
+        glVertex2f(cenx2 + thickness/sqrt(2), ceny2 - thickness/sqrt(2));
+        glVertex2f(cenx1 + thickness/sqrt(2), ceny1 - thickness/sqrt(2));
+        glVertex2f(cenx1 + thickness/sqrt(2), ceny1 + thickness/sqrt(2));
+        glEnd();
+        }
+    
+        else if (adjLocation == 2)
+        {
+            glColor3b(58, 67, 70);
+            glBegin(GL_QUADS);
+            glVertex2f(cenx1 - thickness/sqrt(2), ceny1 + thickness/sqrt(2));
+            glVertex2f(cenx1 + thickness/sqrt(2), ceny1 - thickness/sqrt(2));
+            glVertex2f(cenx2 + thickness/sqrt(2), ceny2 - thickness/sqrt(2));
+            glVertex2f(cenx2 - thickness/sqrt(2), ceny2 + thickness/sqrt(2));
+            glEnd();
+        }
+    
+        else if (adjLocation == 1)
+        {
+            glColor3b(58, 67, 70);
+            glBegin(GL_QUADS);
+            glVertex2f(cenx1 - thickness, ceny2);
+            glVertex2f(cenx1 - thickness, ceny1);
+            glVertex2f(cenx1 + thickness, ceny1);
+            glVertex2f(cenx1 + thickness, ceny2);
+            glEnd();
+        }
+    
+        else if (adjLocation == 5)
+        {
+            glColor3b(58, 67, 70);
+            glBegin(GL_QUADS);
+            glVertex2f(cenx1 - thickness, ceny1);
+            glVertex2f(cenx1 - thickness, ceny2);
+            glVertex2f(cenx1 + thickness, ceny2);
+            glVertex2f(cenx1 + thickness, ceny1);
+            glEnd();
+        }
+    
+        else if (adjLocation == 3)
+        {
+            glColor3b(58, 67, 70);
+            glBegin(GL_QUADS);
+            glVertex2f(cenx1 , ceny1 + thickness);
+            glVertex2f(cenx1, ceny1 - thickness);
+            glVertex2f(cenx2, ceny1 - thickness);
+            glVertex2f(cenx2, ceny1 + thickness);
+            glEnd();
+        }
+    
+        else if (adjLocation == 7)
+        {
+            glColor3b(58, 67, 70);
+            glBegin(GL_QUADS);
+            glVertex2f(cenx2 , ceny1 + thickness);
+            glVertex2f(cenx2, ceny1 - thickness);
+            glVertex2f(cenx1, ceny1 - thickness);
+            glVertex2f(cenx1, ceny1 + thickness);
+            glEnd();
+        }
+    
+    
+    
+
+    
+    
 
 
 }

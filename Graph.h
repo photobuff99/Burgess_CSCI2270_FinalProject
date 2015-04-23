@@ -87,9 +87,9 @@ class Graph
         //Other
         int findVertex(int inId);
         // Draw Helpers
-        double getGlx(int verIndex);
-        double getGly(int verIndex);
-        void drawLine(int ver1, int ver2, double thickness);
+        double getGlx(vertex * ver);
+        double getGly(vertex * ver);
+        void drawLine(vertex * ver1, vertex * ver2, double thickness);
 
 };
 

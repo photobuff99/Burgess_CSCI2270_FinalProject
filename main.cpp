@@ -47,6 +47,7 @@ int main(void)
     int state = 0;
     Graph G;
     G.createMap("map.txt");
+    
     while (!glfwWindowShouldClose(window))
     {
         float ratio;
@@ -140,7 +141,7 @@ int main(void)
         glEnd();
 
         state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
-
+        G.drawMap();
 
         glfwSwapBuffers(window);
         glfwPollEvents();
