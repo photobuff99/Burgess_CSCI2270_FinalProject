@@ -47,7 +47,7 @@ int main(int argc, char * argv[])
     double B = 0;
     int state = 0;
     Graph G;
-    G.createMap(argv[1]);
+    G.createMap("map.txt");
 
     while (!glfwWindowShouldClose(window))
     {
