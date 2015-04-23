@@ -62,7 +62,7 @@ int main(int argc, char * argv[])
         glLoadIdentity();
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-        drawBackground;
+        drawBackground();
         G.drawMap();
 
         glEnd();
