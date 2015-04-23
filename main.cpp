@@ -23,6 +23,7 @@ void currentDrawState(double X, double Y, int width, int height)
     glVertex2f(.5f + X/(width/2) -1, .5f - Y/(height/2) + 1);
 
 }
+void drawBackground();
 
 int main(int argc, char * argv[])
 {
@@ -61,19 +62,42 @@ int main(int argc, char * argv[])
         glLoadIdentity();
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
+        drawBackground;
+        G.drawMap();
 
-        glColor3b(87, 67, 70);
-        /*
-        glBegin(GL_TRIANGLE_FAN);
-        for(int i =0; i <= 15; i++){
-            double angle = 2 * 3.14159 * i / 15;
-            double x = cos(angle);
-            double y = sin(angle);
-            glVertex2d(x/(width/100) - 1, y/(height/100) -1);
+        glEnd();
+
+        glfwGetCursorPos(window, &X, &Y);
+        glfwGetWindowSize(window, &width, &height); //get windows current size
+        glColor3b(127, 110, 115);
+        glBegin(GL_TRIANGLES);
+
+        if (state == GLFW_PRESS)
+        {
+            currentDrawState(X, Y, width, height);
+            A = X;
+            B = Y;
         }
-        glEnd(); */
-        bool color = false;
 
+
+        currentDrawState(A, B, width, height);
+
+        glEnd();
+
+        state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+
+
+        glfwSwapBuffers(window);
+        glfwWaitEvents();
+    }
+    glfwDestroyWindow(window);
+    glfwTerminate();
+    exit(EXIT_SUCCESS);
+}
+
+void drawBackground()
+{
+    bool color = false;
         for (int i = 0; i < 8; i++)
         {
 
@@ -111,45 +135,5 @@ int main(int argc, char * argv[])
             }
 
         }
-
-        /*
-        glColor3b(64, 31, 56);
-        glBegin(GL_QUADS);
-        glVertex2f(-1 + 0.120, 1 - 0.120);
-        glVertex2f(-1 + 0.120, 1 - 0.130);
-        glVertex2f(1 - 0.120, 1 - 0.130);
-        glVertex2f(1 - 0.120, 1 - 0.120);
-        */
-
-        G.drawMap();
-
-        glEnd();
-
-        glfwGetCursorPos(window, &X, &Y);
-        glfwGetWindowSize(window, &width, &height); //get windows current size
-        glColor3b(127, 110, 115);
-        glBegin(GL_TRIANGLES);
-
-        if (state == GLFW_PRESS)
-        {
-            currentDrawState(X, Y, width, height);
-            A = X;
-            B = Y;
-        }
-
-
-        currentDrawState(A, B, width, height);
-
-        glEnd();
-
-        state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
-
-
-        glfwSwapBuffers(window);
-        glfwWaitEvents();
-    }
-    glfwDestroyWindow(window);
-    glfwTerminate();
-    exit(EXIT_SUCCESS);
 }
 
