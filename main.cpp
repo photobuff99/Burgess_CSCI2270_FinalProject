@@ -121,7 +121,7 @@ int main(void)
         
         glfwGetCursorPos(window, &X, &Y);
         glfwGetWindowSize(window, &width, &height); //get windows current size
-        glColor3b(91, 90, 87);
+        glColor3b(100, 100, 100);
         glBegin(GL_TRIANGLES);
         
         if (state == GLFW_PRESS)
