@@ -21,10 +21,10 @@ void currentDrawState(double X, double Y, int width, int height)
     glVertex2f(0.f +  X/(width/2) -1, .0f - Y/(height/2) + 1);
     glVertex2f(0.f + X/(width/2) -1, .5f - Y/(height/2) + 1);
     glVertex2f(.5f + X/(width/2) -1, .5f - Y/(height/2) + 1);
-    
+
 }
 
-int main(void)
+int main(int argc, char * argv[])
 {
     int width = 600;
     int height = 400;
@@ -47,8 +47,8 @@ int main(void)
     double B = 0;
     int state = 0;
     Graph G;
-    G.createMap("map.txt");
-    
+    G.createMap(argv[1]);
+
     while (!glfwWindowShouldClose(window))
     {
         float ratio;
@@ -120,7 +120,7 @@ int main(void)
         glVertex2f(1 - 0.120, 1 - 0.130);
         glVertex2f(1 - 0.120, 1 - 0.120);
         */
-        
+
         G.drawMap();
 
         glEnd();
@@ -143,7 +143,7 @@ int main(void)
         glEnd();
 
         state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
-        
+
 
         glfwSwapBuffers(window);
         glfwPollEvents();
