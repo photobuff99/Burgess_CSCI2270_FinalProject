@@ -21,6 +21,7 @@ void currentDrawState(double X, double Y, int width, int height)
     glVertex2f(0.f +  X/(width/2) -1, .0f - Y/(height/2) + 1);
     glVertex2f(0.f + X/(width/2) -1, .5f - Y/(height/2) + 1);
     glVertex2f(.5f + X/(width/2) -1, .5f - Y/(height/2) + 1);
+    
 }
 
 int main(void)
@@ -111,21 +112,22 @@ int main(void)
 
         }
 
-
+        /*
         glColor3b(64, 31, 56);
         glBegin(GL_QUADS);
         glVertex2f(-1 + 0.120, 1 - 0.120);
         glVertex2f(-1 + 0.120, 1 - 0.130);
         glVertex2f(1 - 0.120, 1 - 0.130);
         glVertex2f(1 - 0.120, 1 - 0.120);
-
-
+        */
+        
+        G.drawMap();
 
         glEnd();
 
         glfwGetCursorPos(window, &X, &Y);
         glfwGetWindowSize(window, &width, &height); //get windows current size
-        glColor3b(100, 100, 100);
+        glColor3b(127, 110, 115);
         glBegin(GL_TRIANGLES);
 
         if (state == GLFW_PRESS)
@@ -141,7 +143,7 @@ int main(void)
         glEnd();
 
         state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
-        G.drawMap();
+        
 
         glfwSwapBuffers(window);
         glfwPollEvents();
