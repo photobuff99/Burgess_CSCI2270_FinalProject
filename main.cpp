@@ -74,13 +74,13 @@ int main(void)
             
             if (color)
             {
-                glColor3b(87, 67, 70);
+                glColor3b(91, 87, 91);
                 color = !color;
             }
             
             else
             {
-                glColor3b(83, 61, 70);
+                glColor3b(85, 80, 79);
                 color = !color;
             }
             
@@ -88,13 +88,13 @@ int main(void)
             {
                 if (color)
                 {
-                    glColor3b(87, 67, 70);
+                    glColor3b(91, 87, 91);
                     color = !color;
                 }
                 
                 else
                 {
-                    glColor3b(83, 61, 70);
+                    glColor3b(85, 80, 79);
                     color = !color;
                 }
                 glBegin(GL_TRIANGLE_STRIP);
@@ -106,12 +106,16 @@ int main(void)
             }
 
         }
+        
+        
         glColor3b(64, 31, 56);
-        glBegin(GL_TRIANGLE_STRIP);
-        glVertex2f(-1 + (4.0/36.0)*(1.0/4.0), 1 - (1.0/12.0)*(1.0/4.0));
-        glVertex2f(-1 + (4.0/36.0)*(1.0/4.0), 1 - (2.0/12.0)*(1.0/4.0));
-        glVertex2f(1-(4.0/36.0)*(1.0/4.0), 1 - (1.0/12.0)*(1.0/4.0));
-        glVertex2f(1 - (4.0/36.0)*(1.0/4.0), 1 - (2.0/12.0)*(1.0/4.0));
+        glBegin(GL_QUADS);
+        glVertex2f(-1 + 0.120, 1 - 0.120);
+        glVertex2f(-1 + 0.120, 1 - 0.130);
+        glVertex2f(1 - 0.120, 1 - 0.130);
+        glVertex2f(1 - 0.120, 1 - 0.120);
+        
+        
         
         glEnd();
         
