@@ -149,7 +149,7 @@ bool Graph::createMapHelper(std::string mapFileName)
             for(int i = 0; i < commas;i++)
             {
                 token = getCommaSeparatedWord(&line);
-                
+
                 tempID = stoi(token);
                 tempVec.push_back(tempID);
             }
@@ -193,12 +193,12 @@ bool Graph::createMapHelper(std::string mapFileName)
         }
         for (unsigned i = 0; i < vertices.size(); i++)
         {
-            //std::cout << "Id: " << vertices[i].id << std::endl;
+            std::cout << "Id: " << vertices[i].id << std::endl;
             for(unsigned j = 0; j < vertices[i].adj.size();j++)
                 {
-                   //std::cout << " |Adj: " << vertices[i].adj[j].v->id << " Loc: " << vertices[i].adj[j].location << " |";
+                   std::cout << " |Adj: " << vertices[i].adj[j].v->id << " Loc: " << vertices[i].adj[j].location << " |";
                 }
-            //std::cout << std::endl;
+            std::cout << std::endl;
         }
     }
     else
@@ -371,16 +371,15 @@ double Graph::getGly(vertex * ver)
 }
 void Graph::drawMap()
 {
-    
-    for (int i = 0; i < vertices.size(); i++)
+
+    for (unsigned i = 0; i < vertices.size(); i++)
     {
-        for (int j = 0; j < vertices[i].adj.size(); j++)
+        for (unsigned j = 0; j < vertices[i].adj.size(); j++)
         {
             drawLine(&vertices[i], vertices[i].adj[j].v, 0.01);
         }
     }
-    
-    
+    drawLine(&vertices[0], &vertices[1], .01);
 }
 void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
 {
@@ -392,22 +391,22 @@ void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
     std::cout << cenx1 << " " << cenx2 << std::endl;
     // search for index in ver1's adj list for ver2 id
     int adjLocation = -1;
-    bool found = false;
-    
-    for(int i = 0; i < ver1->adj.size(); i++)
+    // bool found = false;
+
+    for(unsigned i = 0; i < ver1->adj.size(); i++)
     {
-        
+
         if(ver2 == ver1->adj[i].v)
         {
-            std::cout << "DDDDDDDDDDD" << std::endl;
+            //std::cout << "DDDDDDDDDDD" << std::endl;
             adjLocation = ver1->adj[i].location;
-            found = true;
+            // found = true;
         }
-        
-        
+
+
     }
-   
-    
+
+
         if (adjLocation == 0)
         {
         glColor3b(58, 67, 70);
@@ -418,7 +417,7 @@ void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
         glVertex2f(cenx1 + thickness/sqrt(2), ceny1 + thickness/sqrt(2));
         glEnd();
         }
-    
+
         else if (adjLocation == 4)
         {
         glColor3b(58, 67, 70);
@@ -429,18 +428,18 @@ void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
         glVertex2f(cenx2 + thickness/sqrt(2), ceny2 + thickness/sqrt(2));
         glEnd();
         }
-    
+
         else if (adjLocation == 6)
         {
         glColor3b(58, 67, 70);
         glBegin(GL_QUADS);
-        glVertex2f(cenx2 - thickness/sqrt(2), ceny1 + thickness/sqrt(2));
-        glVertex2f(cenx2 + thickness/sqrt(2), ceny2 - thickness/sqrt(2));
         glVertex2f(cenx1 + thickness/sqrt(2), ceny1 - thickness/sqrt(2));
-        glVertex2f(cenx1 + thickness/sqrt(2), ceny1 + thickness/sqrt(2));
+        glVertex2f(cenx1 - thickness/sqrt(2), ceny1 + thickness/sqrt(2));
+        glVertex2f(cenx2 - thickness/sqrt(2), ceny2 + thickness/sqrt(2));
+        glVertex2f(cenx2 + thickness/sqrt(2), ceny2 - thickness/sqrt(2));
         glEnd();
         }
-    
+
         else if (adjLocation == 2)
         {
             glColor3b(58, 67, 70);
@@ -451,7 +450,7 @@ void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
             glVertex2f(cenx2 - thickness/sqrt(2), ceny2 + thickness/sqrt(2));
             glEnd();
         }
-    
+
         else if (adjLocation == 1)
         {
             glColor3b(58, 67, 70);
@@ -462,7 +461,7 @@ void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
             glVertex2f(cenx1 + thickness, ceny2);
             glEnd();
         }
-    
+
         else if (adjLocation == 5)
         {
             glColor3b(58, 67, 70);
@@ -473,7 +472,7 @@ void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
             glVertex2f(cenx1 + thickness, ceny1);
             glEnd();
         }
-    
+
         else if (adjLocation == 3)
         {
             glColor3b(58, 67, 70);
@@ -484,7 +483,7 @@ void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
             glVertex2f(cenx2, ceny1 + thickness);
             glEnd();
         }
-    
+
         else if (adjLocation == 7)
         {
             glColor3b(58, 67, 70);
@@ -495,13 +494,6 @@ void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
             glVertex2f(cenx1, ceny1 + thickness);
             glEnd();
         }
-    
-    
-    
-
-    
-    
 
 
 }
-

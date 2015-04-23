@@ -51,10 +51,10 @@ int main(int argc, char * argv[])
 
     while (!glfwWindowShouldClose(window))
     {
-        float ratio;
+        //float ratio;
         int width, height;
         glfwGetFramebufferSize(window, &width, &height);
-        ratio = width / (float) height;
+        //ratio = width / (float) height;
         glViewport(0, 0, width, height);
         glClear(GL_COLOR_BUFFER_BIT);
         glMatrixMode(GL_PROJECTION);
@@ -146,7 +146,7 @@ int main(int argc, char * argv[])
 
 
         glfwSwapBuffers(window);
-        glfwPollEvents();
+        glfwWaitEvents();
     }
     glfwDestroyWindow(window);
     glfwTerminate();
