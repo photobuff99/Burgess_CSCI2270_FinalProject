@@ -69,26 +69,22 @@ int main(int argc, char * argv[])
 
         glfwGetCursorPos(window, &X, &Y);
         glfwGetWindowSize(window, &width, &height); //get windows current size
-        glColor3b(127, 110, 115);
-        glBegin(GL_TRIANGLES);
 
+        //glBegin(GL_TRIANGLES)
         if (state == GLFW_PRESS)
         {
             currentDrawState(X, Y, width, height);
             A = X;
             B = Y;
+            // vertex * gar = G.getClickedNode(A,B,height,width); // this can
         }
-
-
         currentDrawState(A, B, width, height);
-
-        glEnd();
 
         state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
 
 
         glfwSwapBuffers(window);
-        glfwWaitEvents();
+        glfwPollEvents();
     }
     glfwDestroyWindow(window);
     glfwTerminate();

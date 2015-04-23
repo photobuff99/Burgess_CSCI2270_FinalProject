@@ -3,7 +3,7 @@
 // Error Checking Messages
 const std::string INDEX_NOT_VALID = "Please choose a valid index";
 const std::string FILE_OPEN_ERROR = "File did not open, map not populated";
-
+const std::string DRAW_ERROR = "Something that did not draw...";
 Graph::Graph()
 {
 
@@ -391,61 +391,63 @@ void Graph::drawMap()
 }
 void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
 {
-    double cenx1,ceny1,cenx2,ceny2;
-    cenx1 = getGlx(ver1);
-    ceny1 = getGly(ver1);
-    cenx2 = getGlx(ver2);
-    ceny2 = getGly(ver2);
-    std::cout << cenx1 << " " << cenx2 << std::endl;
-    // search for index in ver1's adj list for ver2 id
-    int adjLocation = -1;
-    // bool found = false;
-
-    for(unsigned i = 0; i < ver1->adj.size(); i++)
+    if( ver1 != NULL && ver2 != NULL)
     {
+        double cenx1,ceny1,cenx2,ceny2;
+        cenx1 = getGlx(ver1);
+        ceny1 = getGly(ver1);
+        cenx2 = getGlx(ver2);
+        ceny2 = getGly(ver2);
+        // std::cout << cenx1 << " " << cenx2 << std::endl;
+        // search for index in ver1's adj list for ver2 id
+        int adjLocation = -1;
+        // bool found = false;
 
-        if(ver2 == ver1->adj[i].v)
+        for(unsigned i = 0; i < ver1->adj.size(); i++)
         {
-            //std::cout << "DDDDDDDDDDD" << std::endl;
-            adjLocation = ver1->adj[i].location;
-            // found = true;
+
+            if(ver2 == ver1->adj[i].v)
+            {
+                //std::cout << "DDDDDDDDDDD" << std::endl;
+                adjLocation = ver1->adj[i].location;
+                // found = true;
+            }
+
+
         }
-
-
-    }
 
 
         if (adjLocation == 0)
         {
-        glColor3b(58, 67, 70);
-        glBegin(GL_QUADS);
-        glVertex2f(cenx2 + thickness/sqrt(2), ceny2 + thickness/sqrt(2));
-        glVertex2f(cenx2 - thickness/sqrt(2), ceny2 - thickness/sqrt(2));
-        glVertex2f(cenx1 - thickness/sqrt(2), ceny1 - thickness/sqrt(2));
-        glVertex2f(cenx1 + thickness/sqrt(2), ceny1 + thickness/sqrt(2));
-        glEnd();
+            glColor3b(58, 67, 70);
+            glBegin(GL_QUADS);
+            glVertex2f(cenx2 + thickness/sqrt(2), ceny2 + thickness/sqrt(2));
+            glVertex2f(cenx2 - thickness/sqrt(2), ceny2 - thickness/sqrt(2));
+            glVertex2f(cenx1 - thickness/sqrt(2), ceny1 - thickness/sqrt(2));
+            glVertex2f(cenx1 + thickness/sqrt(2), ceny1 + thickness/sqrt(2));
+            glEnd();
         }
 
         else if (adjLocation == 4)
         {
-        glColor3b(58, 67, 70);
-        glBegin(GL_QUADS);
-        glVertex2f(cenx1 + thickness/sqrt(2), ceny1 + thickness/sqrt(2));
-        glVertex2f(cenx1 - thickness/sqrt(2), ceny1 - thickness/sqrt(2));
-        glVertex2f(cenx2 - thickness/sqrt(2), ceny2 - thickness/sqrt(2));
-        glVertex2f(cenx2 + thickness/sqrt(2), ceny2 + thickness/sqrt(2));
-        glEnd();
+            glColor3b(58, 67, 70);
+            glBegin(GL_QUADS);
+            glVertex2f(cenx1 + thickness/sqrt(2), ceny1 + thickness/sqrt(2));
+            glVertex2f(cenx1 - thickness/sqrt(2), ceny1 - thickness/sqrt(2));
+            glVertex2f(cenx2 - thickness/sqrt(2), ceny2 - thickness/sqrt(2));
+            glVertex2f(cenx2 + thickness/sqrt(2), ceny2 + thickness/sqrt(2));
+            glEnd();
         }
 
         else if (adjLocation == 6)
         {
-        glColor3b(58, 67, 70);
-        glBegin(GL_QUADS);
-        glVertex2f(cenx1 + thickness/sqrt(2), ceny1 - thickness/sqrt(2));
-        glVertex2f(cenx1 - thickness/sqrt(2), ceny1 + thickness/sqrt(2));
-        glVertex2f(cenx2 - thickness/sqrt(2), ceny2 + thickness/sqrt(2));
-        glVertex2f(cenx2 + thickness/sqrt(2), ceny2 - thickness/sqrt(2));
-        glEnd();
+            glColor3b(58, 67, 70);
+            glBegin(GL_QUADS);
+            glVertex2f(cenx1 + thickness/sqrt(2), ceny1 - thickness/sqrt(2));
+            glVertex2f(cenx1 - thickness/sqrt(2), ceny1 + thickness/sqrt(2));
+            glVertex2f(cenx2 - thickness/sqrt(2), ceny2 + thickness/sqrt(2));
+            glVertex2f(cenx2 + thickness/sqrt(2), ceny2 - thickness/sqrt(2));
+            glEnd();
         }
 
         else if (adjLocation == 2)
@@ -502,12 +504,13 @@ void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
             glVertex2f(cenx1, ceny1 + thickness);
             glEnd();
         }
-
-
+    }
 }
 
-void Graph::drawNodes(vertex* ver, double _size)
+void Graph::drawNodes(vertex* ver, double _size) // can handle a null pionter
 {
+    if(ver != NULL)
+    {
         glBegin(GL_TRIANGLE_FAN);
         glVertex2d(getGlx(ver),getGly(ver));
         for(int i =0; i <= 6; i++)
@@ -518,4 +521,28 @@ void Graph::drawNodes(vertex* ver, double _size)
             glVertex2d(x*_size + getGlx(ver),y*_size + getGly(ver));
         }
         glEnd();
+    }
+    else
+    {
+        std::cout << DRAW_ERROR << std::endl;
+    }
+}
+vertex * Graph::getClickedNode(int mouseX, int mouseY, int height, int width)
+{
+   int xBin = width/12;
+   int yBin = height/8;
+   int inxPos = mouseX/xBin;
+   int inyPos = mouseY/yBin;
+   //std::cout << inxPos << " M " << inyPos << std::endl;
+   unsigned i = 0;
+   while(i < vertices.size())
+   {
+        if( vertices[i].xpos == inxPos && vertices[i].ypos == inyPos)
+        {
+            //std::cout << vertices[i].id << std::endl;
+            return &vertices[i];
+        }
+        i++;
+   }
+   return NULL;
 }

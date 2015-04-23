@@ -66,12 +66,19 @@ class Graph
         void createMap(std::string mapFileName);
         // Draw
         void drawMap();
+        // Input Functions
+        vertex * getClickedNode(int mouseX, int mouseY, int height, int width); // returns NULL if nothing is found
     protected:
     private:
         const int MAP_ROWS = 8; // Map size in vertices
         const int MAP_COLS = 12;
         static const int MAP_SIZE = 96;
         std::vector<vertex> vertices;
+
+        // Computer and Human Players
+        vertex * ply;
+        vertex * comp1;
+        vertex * comp2;
 
         // Path Finding
         vertex * shortestPath(int startIndex, int endIndex);
