@@ -1,5 +1,9 @@
 #ifndef GRAPH_H
 #define GRAPH_H
+#include <GLFW/glfw3.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <cmath>
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -54,11 +58,14 @@ class Graph
         //Getters
         int getYpos(int vertexIndex);
         int getXpos(int vertexIndex);
+        int getId(int vertexIndex);
         bool getVisited(int vertexIndex);
         //Checkers
         bool isInVertices(unsigned index);
         //Map Creation
         void createMap(std::string mapFileName);
+        // Draw
+        void drawMap();
     protected:
     private:
         const int MAP_ROWS = 8; // Map size in vertices
@@ -79,6 +86,10 @@ class Graph
 
         //Other
         int findVertex(int inId);
+        // Draw Helpers
+        double getGlx(int verIndex);
+        double getGly(int verIndex);
+        void drawLine(int ver1, int ver2, double thickness);
 
 };
 

@@ -1,6 +1,5 @@
 #include "Graph.h"
 #include <queue>
-
 // Error Checking Messages
 const std::string INDEX_NOT_VALID = "Please choose a valid index";
 const std::string FILE_OPEN_ERROR = "File did not open, map not populated";
@@ -86,6 +85,18 @@ bool Graph::getVisited(int vertexIndex)
     {
         std::cout << INDEX_NOT_VALID << std::endl;
         return false;
+    }
+}
+int Graph::getId(int vertexIndex)
+{
+    if(vertexIndex >= 0 && isInVertices(vertexIndex))
+    {
+        return vertices[vertexIndex].id;
+    }
+    else
+    {
+        std::cout << INDEX_NOT_VALID << std::endl;
+        return -1;
     }
 }
 
@@ -342,3 +353,44 @@ vertex* Graph::getNextMove(vertex * terminalVer)
     }
     return w;
 }
+// Drawing
+double Graph::getGlx(int verIndex)
+{
+    int xTempPos = vertices[verIndex].xpos ;
+    double y;
+    y = ((double)xTempPos)/6.0 - 11.0/12.0;
+    return y;
+}
+double Graph::getGly(int verIndex)
+{
+    int yTempPos = vertices[verIndex].ypos ;
+    double y;
+    y = (-(double)yTempPos)/(4.0) + (7.0/8.0);
+    return y;
+}
+void Graph::drawMap()
+{
+}
+void Graph::drawLine(int ver1, int ver2, double thickness)
+{
+    double cenx1,ceny1,cenx2,ceny2;
+    cenx1 = getGlx(ver1);ceny1 = getGly(ver1);
+    cenx2 = getGlx(ver2);ceny2 = getGly(ver2);
+    thickness = 0.2;
+    // shearch for index in ver1's adj list for ver2 id
+    int adjLocation = 0;
+    for(int i = 0; i <vertices[ver1].adj.size(); i++)
+    {
+        if(&vertices[ver2] == vertices[ver1].adj[i].v)
+        {
+          adjLocation = vertices[ver1].adj[i].location;
+        }
+    }
+
+    if (adjlocation == 0)
+    {
+        glVertex2f(cenx2 + thickness/sqrt(2), ceny1 + thickness/sqrt(2));
+
+
+}
+

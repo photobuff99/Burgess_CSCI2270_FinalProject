@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <cmath>
+#include "Graph.h"
+
 static void error_callback(int error, const char* description)
 {
     fputs(description, stderr);
@@ -43,7 +45,8 @@ int main(void)
     double A = 0;
     double B = 0;
     int state = 0;
-    
+    Graph G;
+    G.createMap("map.txt");
     while (!glfwWindowShouldClose(window))
     {
         float ratio;
@@ -56,7 +59,7 @@ int main(void)
         glLoadIdentity();
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-        
+
         glColor3b(87, 67, 70);
         /*
         glBegin(GL_TRIANGLE_FAN);
@@ -68,22 +71,22 @@ int main(void)
         }
         glEnd(); */
         bool color = false;
-        
+
         for (int i = 0; i < 8; i++)
         {
-            
+
             if (color)
             {
                 glColor3b(91, 87, 91);
                 color = !color;
             }
-            
+
             else
             {
                 glColor3b(85, 80, 79);
                 color = !color;
             }
-            
+
             for(int j = 0; j<12;j++)
             {
                 if (color)
@@ -91,7 +94,7 @@ int main(void)
                     glColor3b(91, 87, 91);
                     color = !color;
                 }
-                
+
                 else
                 {
                     glColor3b(85, 80, 79);
@@ -106,41 +109,39 @@ int main(void)
             }
 
         }
-        
-        
+
+
         glColor3b(64, 31, 56);
         glBegin(GL_QUADS);
         glVertex2f(-1 + 0.120, 1 - 0.120);
         glVertex2f(-1 + 0.120, 1 - 0.130);
         glVertex2f(1 - 0.120, 1 - 0.130);
         glVertex2f(1 - 0.120, 1 - 0.120);
-        
-        
-        
+
+
+
         glEnd();
-        
+
         glfwGetCursorPos(window, &X, &Y);
         glfwGetWindowSize(window, &width, &height); //get windows current size
         glColor3b(100, 100, 100);
         glBegin(GL_TRIANGLES);
-        
+
         if (state == GLFW_PRESS)
         {
             currentDrawState(X, Y, width, height);
             A = X;
             B = Y;
         }
-        
-    
+
+
         currentDrawState(A, B, width, height);
-        
+
         glEnd();
-        
+
         state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
-        
-        
-        
-        
+
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
