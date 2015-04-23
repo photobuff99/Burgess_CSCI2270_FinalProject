@@ -1,4 +1,4 @@
-//getting started with GLFW
+// Used the code from Getting Started With GLFW as the frame work
 //http://www.glfw.org/docs/latest/quick.html
 #include <GLFW/glfw3.h>
 #include <stdlib.h>
