@@ -2,7 +2,7 @@ PROG = expGame
 CC = g++
 OBJS = main.o Graph.o Player.o
 CPPFLAGS = -Wall -std=c++11
-LINK =  -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi -L/usr/lib64 -lGLEW -lXcursor -lXinerama
+LINK =  -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi  -lXcursor -lXinerama
 
 $(PROG): $(OBJS)
 	$(CC) -o $(PROG) $(OBJS) $(LINK)

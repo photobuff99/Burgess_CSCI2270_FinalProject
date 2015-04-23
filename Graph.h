@@ -90,6 +90,7 @@ class Graph
         double getGlx(vertex * ver);
         double getGly(vertex * ver);
         void drawLine(vertex * ver1, vertex * ver2, double thickness);
+        void drawNodes(vertex * ver, double _size);
 
 };
 

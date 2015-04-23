@@ -497,3 +497,17 @@ void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
 
 
 }
+
+void Graph::drawNodes(vertex* ver, double _size)
+{
+        glBegin(GL_TRIANGLE_FAN);
+        glVertex2d(getGlx(ver),getGly(ver));
+        for(int i =0; i <= 40; i++)
+        {
+            double angle = 2 * 3.14159 * i / 15;
+            double x = cos(angle);
+            double y = sin(angle);
+            glVertex2d(x*_size,y*_size);
+        }
+        glEnd();
+}
