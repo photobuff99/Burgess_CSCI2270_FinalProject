@@ -79,13 +79,13 @@ int main(int argc, char * argv[])
 
             if (color)
             {
-                glColor3b(91, 87, 91);
+                glColor3b(112, 109, 125);
                 color = !color;
             }
 
             else
             {
-                glColor3b(85, 80, 79);
+                glColor3b(105, 100, 99);
                 color = !color;
             }
 
@@ -93,13 +93,13 @@ int main(int argc, char * argv[])
             {
                 if (color)
                 {
-                    glColor3b(91, 87, 91);
+                    glColor3b(112, 109, 125);
                     color = !color;
                 }
 
                 else
                 {
-                    glColor3b(85, 80, 79);
+                    glColor3b(105, 100, 99);
                     color = !color;
                 }
                 glBegin(GL_TRIANGLE_STRIP);
