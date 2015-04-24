@@ -392,7 +392,7 @@ void Graph::drawMap()
         glColor3b(207, 52, 0);
         drawNodes(&vertices[i], .04);
     }
-    glColor3b(120, 96, 100);
+    glColor3b(127, 117, 118);
     for (unsigned i = 0; i < vertices.size(); i++)
     {
         drawNodes(&vertices[i], .04);
@@ -608,7 +608,7 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
     if(isMoveAdj(playerMove))
     {
         player = playerMove;
-        drawPlayer(player,100,100,100,.07);
+        drawPlayer(player,127,117,118,.07);
         std::cout << "Player: " << player->id << std::endl;
         std::cout << "Comp: " << comp1->id << std::endl;
         temp = shortestPath(comp1,player);
@@ -629,6 +629,6 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
 }
 void Graph::setup()
 {
-    drawPlayer(player,100,100,100,.07);
+    drawPlayer(player,127,117,118,.07);
     drawPlayer(comp1,100,50,50,.07);
 }

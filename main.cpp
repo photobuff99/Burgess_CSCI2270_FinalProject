@@ -109,7 +109,7 @@ void drawBackground()
 
             if (color)
             {
-                glColor3b(112, 109, 125);
+                glColor3b(70, 69, 75);
                 color = !color;
             }
 
@@ -123,7 +123,7 @@ void drawBackground()
             {
                 if (color)
                 {
-                    glColor3b(112, 109, 125);
+                    glColor3b(70, 69, 75);
                     color = !color;
                 }
 
