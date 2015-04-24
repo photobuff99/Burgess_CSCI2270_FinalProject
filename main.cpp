@@ -76,7 +76,11 @@ int main(int argc, char * argv[])
             currentDrawState(X, Y, width, height);
             A = X;
             B = Y;
-            // vertex * gar = G.getClickedNode(A,B,height,width); // this can
+            vertex * gar = G.getClickedNode(A,B,height,width);
+            if( gar != NULL)
+            {
+            std::cout << gar->id << std::endl;
+            } // this can
         }
         currentDrawState(A, B, width, height);
 
