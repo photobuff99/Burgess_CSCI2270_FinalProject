@@ -307,6 +307,10 @@ int Graph::findVertex(int inId)
 // PathFinding
 vertex* Graph::shortestPath(vertex * start, vertex * ending)
 {
+    if (start == ending)
+    {
+        return NULL;
+    }
     std::queue<vertex*> Q;
     vertex * u;
     vertex * w;
@@ -598,6 +602,8 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
     vertex * temp;
     std::cout << comp1->id << std::endl;
     playerMove = getClickedNode(mouseX,mouseY,height,width);
+    
+    
     // std::cout << playerMove->id << std::cout;
     if(isMoveAdj(playerMove))
     {
@@ -606,10 +612,19 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
         std::cout << "Player: " << player->id << std::endl;
         std::cout << "Comp: " << comp1->id << std::endl;
         temp = shortestPath(comp1,player);
+        if (temp == NULL)
+        {
+            std::cout << "Lose" << std::endl;
+        }
         //std::cout << "temp: " << temp->id << std::endl;
-        comp1 = getNextMove(temp);
+        else
+        {
+            comp1 = getNextMove(temp);
+            drawPlayer(comp1,100,50,50,.07);
+        }
+        
 
-        drawPlayer(comp1,100,50,50,.07);
+        
     }
 }
 void Graph::setup()
