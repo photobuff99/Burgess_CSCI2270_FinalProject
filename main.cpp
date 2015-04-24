@@ -50,7 +50,6 @@ int main(int argc, char * argv[])
     Graph G;
     G.createMap("map.txt");
     int squareState = -1; //-1 so it's never equal to a node at first
-
     while (!glfwWindowShouldClose(window))
     {
         //float ratio;
@@ -72,18 +71,22 @@ int main(int argc, char * argv[])
         glfwGetWindowSize(window, &width, &height); //get windows current size
 
         //glBegin(GL_TRIANGLES)
+        G.setup();
         if (state == GLFW_PRESS)
         {
             currentDrawState(X, Y, width, height);
             A = X;
             B = Y;
-            vertex * gar = G.getClickedNode(A,B,height,width);
+            G.advGamestate(A,B,height,width);
+        }
+
+                  /*  vertex * gar = G.getClickedNode(A,B,height,width);
             if( gar != NULL && gar->id != squareState)
             {
             std::cout << gar->id << std::endl;
             squareState = gar->id;
             } // this can
-        }
+            G.drawPlayer(gar,100,50,90,.06);*/
         currentDrawState(A, B, width, height);
 
         state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);

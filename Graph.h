@@ -68,6 +68,9 @@ class Graph
         void drawMap();
         // Input Functions
         vertex * getClickedNode(int mouseX, int mouseY, int height, int width); // returns NULL if nothing is found
+        // Gameplay
+        void advGamestate(int mouseX, int mouseY, int height, int width);//TODO
+        void setup();
     protected:
     private:
         const int MAP_ROWS = 8; // Map size in vertices
@@ -76,12 +79,12 @@ class Graph
         std::vector<vertex> vertices;
 
         // Computer and Human Players
-        vertex * ply;
+        vertex * player;
         vertex * comp1;
         vertex * comp2;
 
         // Path Finding
-        vertex * shortestPath(int startIndex, int endIndex);
+        vertex * shortestPath(vertex * start, vertex * ending);
         vertex * getNextMove(vertex * terminalVer);
         //int path[MAP_SIZE];
         //Map Creation Helpers
@@ -98,6 +101,10 @@ class Graph
         double getGly(vertex * ver);
         void drawLine(vertex * ver1, vertex * ver2, double thickness);
         void drawNodes(vertex * ver, double _size);
+
+        // Gameplay
+        bool isMoveAdj(vertex * ver1); // checks if suggested move is in adj for vertex in player varible;
+        void drawPlayer(vertex* ver, int R, int G, int B, float _size);
 
 };
 

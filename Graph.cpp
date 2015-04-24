@@ -5,6 +5,7 @@
 const std::string INDEX_NOT_VALID = "Please choose a valid index";
 const std::string FILE_OPEN_ERROR = "File did not open, map not populated";
 const std::string DRAW_ERROR = "Something that did not draw...";
+const std::string NULL_ERROR = "Something was NULL";
 Graph::Graph()
 {
 
@@ -192,7 +193,7 @@ bool Graph::createMapHelper(std::string mapFileName)
                     vertices[i].adj[j].location = findLocation(i,j);
                 }
         }
-        for (unsigned i = 0; i < vertices.size(); i++)
+        /*for (unsigned i = 0; i < vertices.size(); i++)
         {
             std::cout << "Id: " << vertices[i].id << std::endl;
             for(unsigned j = 0; j < vertices[i].adj.size();j++)
@@ -200,7 +201,7 @@ bool Graph::createMapHelper(std::string mapFileName)
                    std::cout << " |Adj: " << vertices[i].adj[j].v->id << " Loc: " << vertices[i].adj[j].location << " |";
                 }
             std::cout << std::endl;
-        }
+        }*/
     }
     else
     {
@@ -208,6 +209,8 @@ bool Graph::createMapHelper(std::string mapFileName)
         return false;
     }
     mapFile.close();
+    comp1 = &vertices[0];
+    player = &vertices[15];
     return true;
 }
 // Given the index of a vertex and one of its adjcent vertices finds the location od adj vertex.
@@ -302,16 +305,17 @@ int Graph::findVertex(int inId)
         return -1;
 }
 // PathFinding
-vertex* Graph::shortestPath(int startIndex, int endIndex)
+vertex* Graph::shortestPath(vertex * start, vertex * ending)
 {
     std::queue<vertex*> Q;
     vertex * u;
     vertex * w;
-    vertex * start = &vertices[startIndex];
-    vertex * ending = &vertices[endIndex];
+    //vertex * start = &vertices[startIndex];
+    //vertex * ending = &vertices[endIndex];
     for(unsigned i = 0; i < vertices.size(); i++)
     {
         vertices[i].visited = false;
+        vertices[i].pVertex = NULL;
     }
     start->visited = true;
     start->distance = 0;
@@ -348,10 +352,12 @@ vertex* Graph::getNextMove(vertex * terminalVer)
     u = terminalVer;
     while( u != NULL)
     {
+        std::cout << " S: " << u->id;
         S.push(u);
         u = u->pVertex;
     }
-
+    std::cout << std::endl;
+    S.pop();
     return S.top();
 }
 // Drawing
@@ -509,16 +515,18 @@ void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
 
 void Graph::drawNodes(vertex* ver, double _size) // can handle a null pionter
 {
+    double inXpos = getGlx(ver);
+    double inYpos = getGly(ver);
     if(ver != NULL)
     {
         glBegin(GL_TRIANGLE_FAN);
-        glVertex2d(getGlx(ver),getGly(ver));
+        glVertex2d(inXpos,inYpos);
         for(int i =0; i <= 6; i++)
         {
             double angle = 2 * 3.14159 * i / 6;
             double x = cos(angle);
             double y = sin(angle);
-            glVertex2d(x*_size + getGlx(ver),y*_size + getGly(ver));
+            glVertex2d(x*_size + inXpos,y*_size + inYpos);
         }
         glEnd();
     }
@@ -545,4 +553,67 @@ vertex * Graph::getClickedNode(int mouseX, int mouseY, int height, int width)
         i++;
    }
    return NULL;
+}
+//Game Play
+void Graph::drawPlayer(vertex* ver, int R, int G, int B , float _size)
+{
+    if( ver != NULL)
+    {
+    double inXpos = getGlx(ver);
+    double inYpos = getGly(ver);
+    glBegin(GL_TRIANGLE_FAN);
+    glColor3b(R,G,B);
+    glVertex2d(inXpos,inYpos);
+        for(int i =0; i <= 100; i++)
+        {
+            double angle = 2 * 3.14159 * i / 100;
+            double x = cos(angle);
+            double y = sin(angle);
+            glVertex2d(x*_size + inXpos,y*_size + inYpos);
+        }
+        glEnd();
+    }
+}
+bool Graph::isMoveAdj(vertex * ver)
+{
+    if( ver != NULL)
+    {
+    for(int i = 0; i < player->adj.size();i++)
+    {
+        if( ver == player->adj[i].v )
+        {
+            return true;
+        }
+    }
+    }
+    else
+    {
+        std::cout << NULL_ERROR << std::endl;
+    }
+    return false;
+}
+void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes start pos set
+{
+    vertex * playerMove;
+    vertex * temp;
+    std::cout << comp1->id << std::endl;
+    playerMove = getClickedNode(mouseX,mouseY,height,width);
+    // std::cout << playerMove->id << std::cout;
+    if(isMoveAdj(playerMove))
+    {
+        player = playerMove;
+        drawPlayer(player,100,100,100,.07);
+        std::cout << "Player: " << player->id << std::endl;
+        std::cout << "Comp: " << comp1->id << std::endl;
+        temp = shortestPath(comp1,player);
+        //std::cout << "temp: " << temp->id << std::endl;
+        comp1 = getNextMove(temp);
+
+        drawPlayer(comp1,100,50,50,.07);
+    }
+}
+void Graph::setup()
+{
+    drawPlayer(player,100,100,100,.07);
+    drawPlayer(comp1,100,50,50,.07);
 }
