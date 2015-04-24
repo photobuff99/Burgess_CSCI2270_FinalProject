@@ -48,7 +48,7 @@ int main(int argc, char * argv[])
     double B = 0;
     int state = 0;
     Graph G;
-    G.createMap("map.txt");
+    G.createMap("map2.txt");
     //int squareState = -1; //-1 so it's never equal to a node at first
     while (!glfwWindowShouldClose(window))
     {
@@ -87,7 +87,7 @@ int main(int argc, char * argv[])
             squareState = gar->id;
             } // this can
             G.drawPlayer(gar,100,50,90,.06);*/
-        
+
         currentDrawState(A, B, width, height);
 
         state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);

@@ -117,10 +117,13 @@ bool Graph::isInVertices(unsigned index)
 
 }
 
-// Map Methods
+/* Map Methods
 
-// Takes the name of the map file and populates the graph with the nodes used and edges
-// needs full documentation
+ Takes the name of the map file and populates the graph with the nodes, edges and location information
+
+ Proto: void createMap(string)
+ Pre: graph file must be formated in the correct way
+ Post:*/
 void Graph::createMap(std::string mapFileName)
 {
     //open file
@@ -160,13 +163,14 @@ bool Graph::createMapHelper(std::string mapFileName)
 
         int row = 0;
         int col = 0;
+        int counter = 0;
         for(unsigned i = 0; i < mapVec.size(); i++)
         {
             if(mapVec[i][1] != -1) // If vertex is used
             {   row = mapVec[i][0] % MAP_ROWS; col = mapVec[i][0] / MAP_ROWS;
                 vertex temp(col,row,mapVec[i][0],false);// Put vertex in verticies with id
                 vertices.push_back(temp);
-                std::cout << "Adding: " << mapVec[i][0] << " Row: "<< row << " Col: "<< col << std::endl;
+                std::cout << "Index: " << counter++ << " Adding: " << mapVec[i][0] << " Row: "<< row << " Col: "<< col << std::endl;
             }
             else
             {
@@ -210,7 +214,7 @@ bool Graph::createMapHelper(std::string mapFileName)
     }
     mapFile.close();
     comp1 = &vertices[0];
-    player = &vertices[15];
+    player = &vertices[50];
     return true;
 }
 // Given the index of a vertex and one of its adjcent vertices finds the location od adj vertex.
@@ -516,7 +520,6 @@ void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
         }
     }
 }
-
 void Graph::drawNodes(vertex* ver, double _size) // can handle a null pionter
 {
     double inXpos = getGlx(ver);
