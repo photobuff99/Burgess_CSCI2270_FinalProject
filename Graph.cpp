@@ -1,5 +1,6 @@
 #include "Graph.h"
 #include <queue>
+#include <stack>
 // Error Checking Messages
 const std::string INDEX_NOT_VALID = "Please choose a valid index";
 const std::string FILE_OPEN_ERROR = "File did not open, map not populated";
@@ -342,17 +343,16 @@ vertex* Graph::shortestPath(int startIndex, int endIndex)
 }
 vertex* Graph::getNextMove(vertex * terminalVer)
 {
-    vertex * u;
-    vertex * j;
-    vertex * w;
+    vertex *u;
+    std::stack<vertex*> S;
     u = terminalVer;
     while( u != NULL)
     {
-        w = j;
-        j = u;
+        S.push(u);
         u = u->pVertex;
     }
-    return w;
+
+    return S.top();
 }
 // Drawing
 double Graph::getGlx(vertex * ver)
