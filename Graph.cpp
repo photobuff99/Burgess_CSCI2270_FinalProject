@@ -389,10 +389,10 @@ void Graph::drawMap()
         {
             drawLine(&vertices[i], vertices[i].adj[j].v, 0.01);
         }
-        glColor3b(207, 52, 0);
+        glColor3b(207, 52, 0); // Connection colors
         drawNodes(&vertices[i], .04);
     }
-    glColor3b(127, 117, 118);
+    glColor3b(127, 117, 118); // Node colors
     for (unsigned i = 0; i < vertices.size(); i++)
     {
         drawNodes(&vertices[i], .04);
@@ -602,8 +602,8 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
     vertex * temp;
     std::cout << comp1->id << std::endl;
     playerMove = getClickedNode(mouseX,mouseY,height,width);
-    
-    
+
+
     // std::cout << playerMove->id << std::cout;
     if(isMoveAdj(playerMove))
     {
@@ -622,9 +622,9 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
             comp1 = getNextMove(temp);
             drawPlayer(comp1,100,50,50,.07);
         }
-        
 
-        
+
+
     }
 }
 void Graph::setup()
