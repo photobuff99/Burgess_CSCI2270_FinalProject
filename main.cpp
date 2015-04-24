@@ -49,6 +49,7 @@ int main(int argc, char * argv[])
     int state = 0;
     Graph G;
     G.createMap("map.txt");
+    int squareState = -1; //-1 so it's never equal to a node at first
 
     while (!glfwWindowShouldClose(window))
     {
@@ -77,9 +78,10 @@ int main(int argc, char * argv[])
             A = X;
             B = Y;
             vertex * gar = G.getClickedNode(A,B,height,width);
-            if( gar != NULL)
+            if( gar != NULL && gar->id != squareState)
             {
             std::cout << gar->id << std::endl;
+            squareState = gar->id;
             } // this can
         }
         currentDrawState(A, B, width, height);
