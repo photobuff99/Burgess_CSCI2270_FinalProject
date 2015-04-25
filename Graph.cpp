@@ -416,6 +416,12 @@ vertex* Graph::getNextMove(vertex * terminalVer)
     return S.top();
 }
 // Drawing
+/*
+ Given a vertex the getGlx method converts its xpos to a gl distance between -1 and 1 and returns it
+ Proto: double Graph::getGlx(vertex *)
+ Pre: the vertices vector must be populated, so each vertex has an xpos
+ Post: nothing
+ */
 double Graph::getGlx(vertex * ver)
 {
     int xTempPos = ver->xpos;
@@ -423,6 +429,9 @@ double Graph::getGlx(vertex * ver)
     y = ((double)xTempPos)/6.0 - 11.0/12.0;
     return y;
 }
+/*
+ same a getGlx but for y
+ */
 double Graph::getGly(vertex * ver)
 {
     int yTempPos = ver->ypos;
@@ -430,6 +439,7 @@ double Graph::getGly(vertex * ver)
     y = (-(double)yTempPos)/(4.0) + (7.0/8.0);
     return y;
 }
+
 void Graph::drawMap()
 {
 
