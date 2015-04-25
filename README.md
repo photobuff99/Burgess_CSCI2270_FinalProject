@@ -15,3 +15,6 @@ g++ main.cpp -I/usr/local/include/GL -L/usr/local/lib -lGLEW -I/usr/local/includ
 <p> Jacob Burgess and Jose Canizares </p>
 <h2>Contributors</h2>
 <h2>Open Issues/Bugs</h2>
+TODO
+1. Comment/explain methods and main programe
+
