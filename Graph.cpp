@@ -6,6 +6,7 @@ const std::string INDEX_NOT_VALID = "Please choose a valid index";
 const std::string FILE_OPEN_ERROR = "File did not open, map not populated";
 const std::string DRAW_ERROR = "Something that did not draw...";
 const std::string NULL_ERROR = "Something was NULL";
+
 Graph::Graph()
 {
 
@@ -295,7 +296,13 @@ int Graph::getNumCommas(std::string line)
     }
     return numCommas;
 }
-
+/*
+ Given a string it returns a substring of everything before the first comma it encounters and then removes that substring
+ from the line it has been given.
+ Proto: string getCommaSeparatedWord(string *)
+ Pre: string it is given should have a comma in it
+ Post: string given is now substring with first comma separated value removed
+ */
 std::string Graph::getCommaSeparatedWord(std::string *_line)
 {
     int i = 0;
@@ -310,6 +317,12 @@ std::string Graph::getCommaSeparatedWord(std::string *_line)
 }
 
 // Others
+/*
+ Given a vertex's id findVertex returns the index in the vector vertices of that vertex
+ Proto: int getNumCommas(int)
+ Pre: nothing
+ Post: nothing
+ */
 int Graph::findVertex(int inId)
 {
     unsigned i = 0;
@@ -328,6 +341,14 @@ int Graph::findVertex(int inId)
         return -1;
 }
 // PathFinding
+/*
+ Given pionters to the start and end vertex's the function finds the shortest path between them and returns
+ the ending vertex's address.
+ Proto: vertex* shortestPath(vertex *,vertex *)
+ Pre: the vertices vector must be populated
+ Post: each vertex's pVertex varible is set to the address of the perivous vertex, the path can be extracted by starting
+ at the terminal index and moving back through pVertex's until you get to the starting vertex.
+ */
 vertex* Graph::shortestPath(vertex * start, vertex * ending)
 {
     if (start == ending)
@@ -372,6 +393,13 @@ vertex* Graph::shortestPath(vertex * start, vertex * ending)
     }
     return NULL;
 }
+/*
+ Finds the next move that the computer player should take towards the location of the human player,
+ takes the vertex of the human player and returns the vertex of where the computer should move next. 
+ Proto: vertex*  getNextMove(vertex *)
+ Pre: shortestPath must be call first, with the arugments of start = computer's vertex and ending = player's vertex
+ Post: nothing
+ */
 vertex* Graph::getNextMove(vertex * terminalVer)
 {
     vertex *u;
