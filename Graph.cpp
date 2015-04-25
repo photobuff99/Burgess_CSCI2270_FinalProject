@@ -617,7 +617,7 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
     if(isMoveAdj(playerMove))
     {
         player = playerMove;
-        drawPlayer(player,115,92,121,.07); //blink color
+        drawPlayer(player,115,92,121,.09); //blink color
         std::cout << "Player: " << player->id << std::endl;
         std::cout << "Comp: " << comp1->id << std::endl;
         temp = shortestPath(comp1,player);
@@ -629,7 +629,7 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
         else
         {
             comp1 = getNextMove(temp);
-            drawPlayer(comp1,121,92,115,.07); //blink color
+            drawPlayer(comp1,125,92,110,.09); //blink color
         }
 
 
