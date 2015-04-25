@@ -117,19 +117,24 @@ bool Graph::isInVertices(unsigned index)
 
 }
 
-/* Map Methods
-
+//Map Methods
+/*
  Takes the name of the map file and populates the graph with the nodes, edges and location information
-
  Proto: void createMap(string)
  Pre: graph file must be formated in the correct way
- Post:*/
+ Post: vertices is populated and all edge and adjacency information is held is vector of adjVertex 
+ */
 void Graph::createMap(std::string mapFileName)
 {
     //open file
     createMapHelper(mapFileName);
 }
-// needs full documentation
+/*
+ Takes the name of the map file and populates the graph with the nodes, edges and location information
+ Proto: void createMap(string)
+ Pre: graph file must be formated in the correct way
+ Post: vertices is populated and all edge and adjacency information is held is vector of adjVertex 
+ */
 bool Graph::createMapHelper(std::string mapFileName)
 {
     //open file
@@ -217,7 +222,15 @@ bool Graph::createMapHelper(std::string mapFileName)
     player = &vertices[50];
     return true;
 }
-// Given the index of a vertex and one of its adjcent vertices finds the location od adj vertex.
+/*
+ Given the index of a vertex and one of its adjcent vertices, finds the location of the adj vertex
+ denoted by an int 0-7. The adjacent spaces to a vertex are labed for the top-left corner(0) moving 
+ clock-wise until you reach the space before the one you started at (7). This function is called
+ by createMapHelper.
+ Proto: int findLocation(unsigned,unsigned)
+ Pre: vertices must be populated 
+ Post: adjvertex varible loction is set to the found value 
+ */
 int Graph::findLocation(unsigned verIndex, unsigned adjVerIndex)
 {
     int xVer, yVer, xAdj, yAdj;
@@ -264,6 +277,12 @@ int Graph::findLocation(unsigned verIndex, unsigned adjVerIndex)
     }
 
 }
+/*
+ Given a string this function gives back the number of commas. This function is called by createMapHelper. 
+ Proto: int getNumCommas(string)
+ Pre: nothing
+ Post: nothing
+ */
 int Graph::getNumCommas(std::string line)
 {
     int numCommas = 0;
