@@ -49,6 +49,7 @@ class Graph
 {
     public:
         Graph();
+        Graph(std::string fileName);
         virtual ~Graph();
 
         //Setters

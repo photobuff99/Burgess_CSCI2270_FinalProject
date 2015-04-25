@@ -11,9 +11,13 @@ const std::string NULL_ERROR = "Something was NULL";
 
 Graph::Graph()
 {
-
+    
 }
 
+Graph::Graph(std::string fileName)
+{
+    createMapHelper(fileName);
+}
 Graph::~Graph()
 {
     //dtor
@@ -698,7 +702,7 @@ void Graph::drawPlayer(vertex* ver, int R, int G, int B , float _size, int width
  
  Example Call: isMoveAdj(
  
- Pre:
+ Pre: The graph has to be populated; CreateGraph() would have to have been called.
  
  Post:
  */

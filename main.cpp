@@ -47,8 +47,7 @@ int main(int argc, char * argv[])
     double A = 0;
     double B = 0;
     int state = 0;
-    Graph G;
-    G.createMap("map2.txt");
+    Graph G = Graph("map2.txt");
     //int squareState = -1; //-1 so it's never equal to a node at first
     while (!glfwWindowShouldClose(window))
     {
@@ -71,7 +70,7 @@ int main(int argc, char * argv[])
         glfwGetWindowSize(window, &width, &height); //get windows current size
 
         //glBegin(GL_TRIANGLES)
-        G.setup();
+        G.setup(width, height);
         if (state == GLFW_PRESS)
         {
             currentDrawState(X, Y, width, height);
