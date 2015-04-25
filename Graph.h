@@ -70,7 +70,7 @@ class Graph
         vertex * getClickedNode(int mouseX, int mouseY, int height, int width); // returns NULL if nothing is found
         // Gameplay
         void advGamestate(int mouseX, int mouseY, int height, int width);//TODO
-        void setup();
+        void setup(int width, int height);
     protected:
     private:
         const int MAP_ROWS = 8; // Map size in vertices
@@ -104,7 +104,7 @@ class Graph
 
         // Gameplay
         bool isMoveAdj(vertex * ver1); // checks if suggested move is in adj for vertex in player varible;
-        void drawPlayer(vertex* ver, int R, int G, int B, float _size);
+        void drawPlayer(vertex* ver, int R, int G, int B, float _size, int width, int height);
 
 };
 

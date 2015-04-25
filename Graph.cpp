@@ -7,6 +7,8 @@ const std::string FILE_OPEN_ERROR = "File did not open, map not populated";
 const std::string DRAW_ERROR = "Something that did not draw...";
 const std::string NULL_ERROR = "Something was NULL";
 
+//Descriptions are before the function.
+
 Graph::Graph()
 {
 
@@ -90,7 +92,9 @@ bool Graph::getVisited(int vertexIndex)
         return false;
     }
 }
-int Graph::getId(int vertexIndex)
+
+
+int Graph::getId(int vertexIndex) //getter that gets ID
 {
     if(vertexIndex >= 0 && isInVertices(vertexIndex))
     {
@@ -104,7 +108,13 @@ int Graph::getId(int vertexIndex)
 }
 
 // Checkers
-// Given an index in the Vertices vector it checks if it is within the vector
+/*
+ Description: Given an index in the Vertices vector it checks if it is within the vector
+ Proto: void drawLine(vertex *,vertex *, double)
+ Example Call:
+ Pre:
+ Post:
+ */
 bool Graph::isInVertices(unsigned index)
 {
     if (index < vertices.size())
@@ -122,7 +132,11 @@ bool Graph::isInVertices(unsigned index)
 /*
  Takes the name of the map file and populates the graph with the nodes, edges and location information
  Proto: void createMap(string)
+ 
+ Example Call:
+ 
  Pre: graph file must be formated in the correct way
+ 
  Post: vertices is populated and all edge and adjacency information is held is vector of adjVertex 
  */
 void Graph::createMap(std::string mapFileName)
@@ -133,7 +147,11 @@ void Graph::createMap(std::string mapFileName)
 /*
  Takes the name of the map file and populates the graph with the nodes, edges and location information
  Proto: void createMap(string)
+ 
+ Example Call:
+ 
  Pre: graph file must be formated in the correct way
+ 
  Post: vertices is populated and all edge and adjacency information is held is vector of adjVertex 
  */
 bool Graph::createMapHelper(std::string mapFileName)
@@ -320,6 +338,7 @@ std::string Graph::getCommaSeparatedWord(std::string *_line)
 /*
  Given a vertex's id findVertex returns the index in the vector vertices of that vertex
  Proto: int getNumCommas(int)
+ Example Call:
  Pre: nothing
  Post: nothing
  */
@@ -342,12 +361,17 @@ int Graph::findVertex(int inId)
 }
 // PathFinding
 /*
- Given pionters to the start and end vertex's the function finds the shortest path between them and returns
+ Description: Given pionters to the start and end vertex's the function finds the shortest path between them and returns
  the ending vertex's address.
+ 
  Proto: vertex* shortestPath(vertex *,vertex *)
+ Example Call:
+ 
  Pre: the vertices vector must be populated
+ 
  Post: each vertex's pVertex varible is set to the address of the perivous vertex, the path can be extracted by starting
  at the terminal index and moving back through pVertex's until you get to the starting vertex.
+ 
  */
 vertex* Graph::shortestPath(vertex * start, vertex * ending)
 {
@@ -439,6 +463,14 @@ double Graph::getGly(vertex * ver)
     y = (-(double)yTempPos)/(4.0) + (7.0/8.0);
     return y;
 }
+//Map Drawing
+/*
+ Description:
+ Proto: void drawMap()
+ Example Call:
+ Pre:
+ Post:
+ */
 
 void Graph::drawMap()
 {
@@ -460,6 +492,16 @@ void Graph::drawMap()
     }
     //drawLine(&vertices[0], &vertices[1], .01);
 }
+
+//Drawing Connecting Lines (drawing the paths of the graph with OpenGL)
+/*
+Description:
+Proto: void drawLine(vertex *,vertex *, double)
+Example Call:
+Pre:
+Post:
+*/
+
 void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
 {
     if( ver1 != NULL && ver2 != NULL)
@@ -577,7 +619,7 @@ void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
         }
     }
 }
-void Graph::drawNodes(vertex* ver, double _size) // can handle a null pionter
+void Graph::drawNodes(vertex* ver, double _size) // can handle a null pointer
 {
     double inXpos = getGlx(ver);
     double inYpos = getGly(ver);
@@ -621,7 +663,7 @@ vertex * Graph::getClickedNode(int mouseX, int mouseY, int height, int width)
    return NULL;
 }
 //Game Play
-void Graph::drawPlayer(vertex* ver, int R, int G, int B , float _size)
+void Graph::drawPlayer(vertex* ver, int R, int G, int B , float _size, int width, int height)
 {
     if( ver != NULL)
     {
@@ -635,15 +677,36 @@ void Graph::drawPlayer(vertex* ver, int R, int G, int B , float _size)
             double angle = 2 * 3.14159 * i / 100;
             double x = cos(angle);
             double y = sin(angle);
-            glVertex2d(x*(_size) + inXpos,y*(_size*1.3) + inYpos); //technically an ellipse
+            glVertex2d(x*(_size) + inXpos,y*(_size*(((double)width)/((double)height))) + inYpos);
+            //technically an ellipse
             //1.3 close to 1.5 which is 600/400
-            //we can eventually pass in width and height into drawNodes to make it dependent
-            //on screen size
+            //ellipse dependent on width and height
         }
         glEnd();
     }
 }
+
+
+//is the vertex adjacent to player
+
+/*
+ Description: 
+ checks if the vertex is a valid adjacent vertex of player. 
+ This function uses player without passing it as an argument.
+ 
+ Proto: bool isMoveAdj(vertex *)
+ 
+ Example Call: isMoveAdj(
+ 
+ Pre:
+ 
+ Post:
+ */
+
+
 bool Graph::isMoveAdj(vertex * ver)
+
+
 {
     if( ver != NULL)
     {
@@ -668,13 +731,14 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
     std::cout << comp1->id << std::endl;
     
     playerMove = getClickedNode(mouseX,mouseY,height,width);
+    //puts node that corresponds with where mouse was clicked, into the temp vertex playerMove
 
 
     // std::cout << playerMove->id << std::cout;
     if(isMoveAdj(playerMove))
     {
         player = playerMove;
-        drawPlayer(player,115,92,121,.09); //blink color
+        drawPlayer(player,115,92,121,.09, width, height); //blink color
         std::cout << "Player: " << player->id << std::endl;
         std::cout << "Comp: " << comp1->id << std::endl;
         temp = shortestPath(comp1,player);
@@ -686,15 +750,15 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
         else
         {
             comp1 = getNextMove(temp);
-            drawPlayer(comp1,125,92,110,.09); //blink color
+            drawPlayer(comp1,125,92,110,.09, width, height); //blink color
         }
 
 
 
     }
 }
-void Graph::setup()
+void Graph::setup(int width, int height)
 {
-    drawPlayer(player,41, 44,91,.07); //stagnant color
-    drawPlayer(comp1,70,45,45,.07); //stagnant color
+    drawPlayer(player,41, 44,91,.07, width, height); //stagnant color
+    drawPlayer(comp1,70,45,45,.07, width, height); //stagnant color
 }
