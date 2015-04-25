@@ -667,6 +667,18 @@ vertex * Graph::getClickedNode(int mouseX, int mouseY, int height, int width)
    return NULL;
 }
 //Game Play
+/*
+ Description:
+.
+ 
+ Proto: void drawPlayer(vertex *, int, int, int, float, int int)
+ 
+ Example Call: drawPlayer(vertex1, -128, -128, 127,  )
+ Pre: The graph has to be populated; CreateGraph() would have to have been called.
+ 
+ Post:
+ 
+ */
 void Graph::drawPlayer(vertex* ver, int R, int G, int B , float _size, int width, int height)
 {
     if( ver != NULL)
@@ -681,7 +693,7 @@ void Graph::drawPlayer(vertex* ver, int R, int G, int B , float _size, int width
             double angle = 2 * 3.14159 * i / 100;
             double x = cos(angle);
             double y = sin(angle);
-            glVertex2d(x*(_size) + inXpos,y*(_size*(((double)width)/((double)height))) + inYpos);
+            glVertex2d(x*_size + inXpos,y*_size*1.3 + inYpos);
             //technically an ellipse
             //1.3 close to 1.5 which is 600/400
             //ellipse dependent on width and height
@@ -700,11 +712,12 @@ void Graph::drawPlayer(vertex* ver, int R, int G, int B , float _size, int width
  
  Proto: bool isMoveAdj(vertex *)
  
- Example Call: isMoveAdj(
+ Example Call: isMoveAdj(mouseClickMove) If mouseClickMove was the corresponding node where the mouse was clicked.
  
  Pre: The graph has to be populated; CreateGraph() would have to have been called.
  
  Post:
+ 
  */
 
 
