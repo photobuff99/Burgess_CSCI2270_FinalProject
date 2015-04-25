@@ -611,7 +611,7 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
     if(isMoveAdj(playerMove))
     {
         player = playerMove;
-        drawPlayer(player,127,117,118,.07);
+        drawPlayer(player,121,93,115,.07);
         std::cout << "Player: " << player->id << std::endl;
         std::cout << "Comp: " << comp1->id << std::endl;
         temp = shortestPath(comp1,player);
@@ -623,7 +623,7 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
         else
         {
             comp1 = getNextMove(temp);
-            drawPlayer(comp1,100,50,50,.07);
+            drawPlayer(comp1,70,45,45,.07);
         }
 
 
@@ -632,6 +632,6 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
 }
 void Graph::setup()
 {
-    drawPlayer(player,127,117,118,.07);
-    drawPlayer(comp1,100,50,50,.07);
+    drawPlayer(player,41, 44,91,.07);
+    drawPlayer(comp1,70,45,45,.07);
 }
