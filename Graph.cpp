@@ -11,7 +11,7 @@ const std::string NULL_ERROR = "Something was NULL";
 
 Graph::Graph()
 {
-    
+
 }
 
 Graph::Graph(std::string fileName)
@@ -136,12 +136,12 @@ bool Graph::isInVertices(unsigned index)
 /*
  Takes the name of the map file and populates the graph with the nodes, edges and location information
  Proto: void createMap(string)
- 
+
  Example Call:
- 
+
  Pre: graph file must be formated in the correct way
- 
- Post: vertices is populated and all edge and adjacency information is held is vector of adjVertex 
+
+ Post: vertices is populated and all edge and adjacency information is held is vector of adjVertex
  */
 void Graph::createMap(std::string mapFileName)
 {
@@ -151,12 +151,12 @@ void Graph::createMap(std::string mapFileName)
 /*
  Takes the name of the map file and populates the graph with the nodes, edges and location information
  Proto: void createMap(string)
- 
+
  Example Call:
- 
+
  Pre: graph file must be formated in the correct way
- 
- Post: vertices is populated and all edge and adjacency information is held is vector of adjVertex 
+
+ Post: vertices is populated and all edge and adjacency information is held is vector of adjVertex
  */
 bool Graph::createMapHelper(std::string mapFileName)
 {
@@ -243,16 +243,17 @@ bool Graph::createMapHelper(std::string mapFileName)
     mapFile.close();
     comp1 = &vertices[0];
     player = &vertices[50];
+    win = &vertices[19];
     return true;
 }
 /*
  Given the index of a vertex and one of its adjcent vertices, finds the location of the adj vertex
- denoted by an int 0-7. The adjacent spaces to a vertex are labed for the top-left corner(0) moving 
+ denoted by an int 0-7. The adjacent spaces to a vertex are labed for the top-left corner(0) moving
  clock-wise until you reach the space before the one you started at (7). This function is called
  by createMapHelper.
  Proto: int findLocation(unsigned,unsigned)
- Pre: vertices must be populated 
- Post: adjvertex varible loction is set to the found value 
+ Pre: vertices must be populated
+ Post: adjvertex varible loction is set to the found value
  */
 int Graph::findLocation(unsigned verIndex, unsigned adjVerIndex)
 {
@@ -301,7 +302,7 @@ int Graph::findLocation(unsigned verIndex, unsigned adjVerIndex)
 
 }
 /*
- Given a string this function gives back the number of commas. This function is called by createMapHelper. 
+ Given a string this function gives back the number of commas. This function is called by createMapHelper.
  Proto: int getNumCommas(string)
  Pre: nothing
  Post: nothing
@@ -367,15 +368,15 @@ int Graph::findVertex(int inId)
 /*
  Description: Given pionters to the start and end vertex's the function finds the shortest path between them and returns
  the ending vertex's address.
- 
+
  Proto: vertex* shortestPath(vertex *,vertex *)
  Example Call:
- 
+
  Pre: the vertices vector must be populated
- 
+
  Post: each vertex's pVertex varible is set to the address of the perivous vertex, the path can be extracted by starting
  at the terminal index and moving back through pVertex's until you get to the starting vertex.
- 
+
  */
 vertex* Graph::shortestPath(vertex * start, vertex * ending)
 {
@@ -423,7 +424,7 @@ vertex* Graph::shortestPath(vertex * start, vertex * ending)
 }
 /*
  Finds the next move that the computer player should take towards the location of the human player,
- takes the vertex of the human player and returns the vertex of where the computer should move next. 
+ takes the vertex of the human player and returns the vertex of where the computer should move next.
  Proto: vertex*  getNextMove(vertex *)
  Pre: shortestPath must be call first, with the arugments of start = computer's vertex and ending = player's vertex
  Post: nothing
@@ -487,12 +488,12 @@ void Graph::drawMap()
             drawLine(&vertices[i], vertices[i].adj[j].v, 0.01);
         }
         glColor3b(207, 52, 0); // Connection colors
-        drawNodes(&vertices[i], .04);
+        drawNode(&vertices[i], .04);
     }
     glColor3b(127, 117, 118); // Node colors
     for (unsigned i = 0; i < vertices.size(); i++)
     {
-        drawNodes(&vertices[i], .04);
+        drawNode(&vertices[i], .04);
     }
     //drawLine(&vertices[0], &vertices[1], .01);
 }
@@ -623,7 +624,7 @@ void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
         }
     }
 }
-void Graph::drawNodes(vertex* ver, double _size) // can handle a null pointer
+void Graph::drawNode(vertex* ver, double _size) // can handle a null pointer
 {
     double inXpos = getGlx(ver);
     double inYpos = getGly(ver);
@@ -670,14 +671,14 @@ vertex * Graph::getClickedNode(int mouseX, int mouseY, int height, int width)
 /*
  Description:
 .
- 
+
  Proto: void drawPlayer(vertex *, int, int, int, float, int int)
- 
+
  Example Call: drawPlayer(vertex1, -128, -128, 127,  )
  Pre: The graph has to be populated; CreateGraph() would have to have been called.
- 
+
  Post:
- 
+
  */
 void Graph::drawPlayer(vertex* ver, int R, int G, int B , float _size, int width, int height)
 {
@@ -706,18 +707,18 @@ void Graph::drawPlayer(vertex* ver, int R, int G, int B , float _size, int width
 //is the vertex adjacent to player
 
 /*
- Description: 
- checks if the vertex is a valid adjacent vertex of player. 
+ Description:
+ checks if the vertex is a valid adjacent vertex of player.
  This function uses player without passing it as an argument.
- 
+
  Proto: bool isMoveAdj(vertex *)
- 
+
  Example Call: isMoveAdj(mouseClickMove) If mouseClickMove was the corresponding node where the mouse was clicked.
- 
+
  Pre: The graph has to be populated; CreateGraph() would have to have been called.
- 
+
  Post:
- 
+
  */
 
 
@@ -746,7 +747,7 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
     vertex * playerMove;
     vertex * temp;
     std::cout << comp1->id << std::endl;
-    
+
     playerMove = getClickedNode(mouseX,mouseY,height,width);
     //puts node that corresponds with where mouse was clicked, into the temp vertex playerMove
 
@@ -755,27 +756,62 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
     if(isMoveAdj(playerMove))
     {
         player = playerMove;
-        drawPlayer(player,115,92,121,.09, width, height); //blink color
+        drawPlayer(player,41,44,91,.07, width, height);
+        if(isWin())
+        {
+             //glfwDestroyWindow(window);
+             std::cout << "You Won :)" << std::endl;
+             glfwTerminate();
+             exit(EXIT_SUCCESS);
+        }
         std::cout << "Player: " << player->id << std::endl;
         std::cout << "Comp: " << comp1->id << std::endl;
         temp = shortestPath(comp1,player);
-        if (temp == NULL)
-        {
-            std::cout << "Lose" << std::endl;
-        }
-        //std::cout << "temp: " << temp->id << std::endl;
-        else
-        {
-            comp1 = getNextMove(temp);
-            drawPlayer(comp1,125,92,110,.09, width, height); //blink color
-        }
+        std::cout << temp ->id << std::endl;
+        comp1 = getNextMove(temp);
+        drawPlayer(comp1,70,45,45,.07, width, height); //blink color
 
+        if(isLoss())
+        {
+             //glfwDestroyWindow(window);
+             std::cout << "You Lost :(" << std::endl;
+             glfwTerminate();
+             exit(EXIT_SUCCESS);
 
+        }
 
     }
 }
 void Graph::setup(int width, int height)
 {
+    glColor3b(121,112,88); // win node color
+    drawNode(win,.04);
+    glColor3b(41,44,91);
     drawPlayer(player,41, 44,91,.07, width, height); //stagnant color
+    glColor3b(70,45,45);
     drawPlayer(comp1,70,45,45,.07, width, height); //stagnant color
+
 }
+bool Graph::isWin()
+{
+    if(player == win)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+bool Graph::isLoss()
+{
+    if(player == comp1)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+

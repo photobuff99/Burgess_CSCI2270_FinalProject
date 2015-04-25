@@ -83,6 +83,7 @@ class Graph
         vertex * player;
         vertex * comp1;
         vertex * comp2;
+        vertex * win;
 
         // Path Finding
         vertex * shortestPath(vertex * start, vertex * ending);
@@ -101,11 +102,14 @@ class Graph
         double getGlx(vertex * ver);
         double getGly(vertex * ver);
         void drawLine(vertex * ver1, vertex * ver2, double thickness);
-        void drawNodes(vertex * ver, double _size);
+        void drawNode(vertex * ver, double _size);
+        //void drawNode(vertex * ver, double _size,int R, int G, int B);
 
         // Gameplay
         bool isMoveAdj(vertex * ver1); // checks if suggested move is in adj for vertex in player varible;
         void drawPlayer(vertex* ver, int R, int G, int B, float _size, int width, int height);
+        bool isWin();
+        bool isLoss();
 
 };
 
