@@ -7,7 +7,7 @@ const std::string FILE_OPEN_ERROR = "File did not open, map not populated";
 const std::string DRAW_ERROR = "Something that did not draw...";
 const std::string NULL_ERROR = "Something was NULL";
 
-//Descriptions are before the functions
+//Note:Descriptions are before the functions
 
 Graph::Graph()
 {
@@ -97,8 +97,8 @@ bool Graph::getVisited(int vertexIndex)
     }
 }
 
-
-int Graph::getId(int vertexIndex) //getter that gets ID
+//getter that gets ID given an index
+int Graph::getId(int vertexIndex)
 {
     if(vertexIndex >= 0 && isInVertices(vertexIndex))
     {
@@ -127,11 +127,11 @@ bool Graph::isInVertices(unsigned index)
 
 //Map Methods
 /*
- Takes the name of the map file and populates the graph with the nodes, edges and location information
+ Takes the name of the map file and populates the graph with the vertices, edges and location information
  Proto: void createMap(string)
  Example Call:
     creatMapHelper("map.txt")
-    All of the grahp information is now in the graph.
+    All of the grap information is now in the graph.
  Pre: graph file must be formated in the correct way
  Post: vertices is populated and all edge and adjacency information is held is vector of adjVertex
  */
@@ -142,10 +142,10 @@ void Graph::createMap(std::string mapFileName)
 }
 /*
  Takes the name of the map file and populates the graph with the nodes, edges and location information
- Proto: void createMap(string)
+ Proto: void Graph::createMap(string)
  Example Call:
     creatMapHelper("map.txt")
-    All of the grahp information is now in the graph.
+    All of the graph information is now in the graph.
  Pre: graph file ("map.txt") must be formated in the correct way
  Post: vertices is populated and all edge,position and adjacency information
  */
@@ -246,14 +246,11 @@ bool Graph::createMapHelper(std::string mapFileName)
  by createMapHelper.
  Proto: int Graph::findLocation(unsigned,unsigned)
  Example:
-
     int location = findLocation(&vertices[3], vertices[3].adj[1].v);
-    location then has value 0 meaning the adjacent vertex to vertices[3], vertices[3].adj[1].v,
-    is located in the top-left compared to vertices[0].
-
- int Graph()
- Pre: vertices must be populated, and should only be called for a vertex and its adjacent not
- Post: adjvertex varible loction is set to the found value
+    location then might have a value 0 meaning the adjacent vertex to vertices[3], vertices[3].adj[1].v,
+    is located in the top-left compared to vertices[3].
+ Pre: vertices must be populated, and should only be called for a vertex and its adjacent
+ Post: nothing
  */
 int Graph::findLocation(unsigned verIndex, unsigned adjVerIndex)
 {
@@ -304,6 +301,8 @@ int Graph::findLocation(unsigned verIndex, unsigned adjVerIndex)
 /*
  Given a string this function gives back the number of commas. This function is called by createMapHelper.
  Proto: int Graph::getNumCommas(string)
+ Example:
+    int numCommas = getNumCommas(line);
  Pre: nothing
  Post: nothing
  */
@@ -349,8 +348,10 @@ std::string Graph::getCommaSeparatedWord(std::string *_line)
 /*
  Given a vertex's id findVertex returns the index in the vector vertices of that vertex
  Proto: int Graph::findVertex(int)
+ Example:
+    int index = findVertex(0);
  Pre: nothing
- Post: nothing
+ Post: if no index was found with that id it returns -1
  */
 int Graph::findVertex(int inId)
 {
@@ -375,7 +376,7 @@ int Graph::findVertex(int inId)
  the ending vertex's address.
  Proto: vertex* shortestPath(vertex *,vertex *)
  Example Call:
-    The computer calls shortestPath(comp1,player); every time the players moves inorder to get the path to the player
+    The computer calls shortestPath(comp1,player); every time the players moves, inorder to get the path to the player
  Pre: the vertices vector must be populated
  Post: each vertex's pVertex varible is set to the address of the perivous vertex visited, the path can be extracted by starting
  at the terminal vertex and moving back through pVertex's until you get to the starting vertex.
@@ -427,6 +428,7 @@ vertex* Graph::shortestPath(vertex * start, vertex * ending)
 /*
  Finds the next move that the computer player should take towards the location of the human player,
  takes the vertex of the human player and returns the vertex of where the computer should move next.
+ It works by using a stack to reverse the path linked list*/
  Proto: vertex*  getNextMove(vertex *)
  Example:
     getNextMove(&vertices[0]);
@@ -454,6 +456,8 @@ vertex* Graph::getNextMove(vertex * terminalVer)
 /*
  Given a vertex the getGlx method converts its xpos to a gl distance between -1 and 1 and returns it
  Proto: double Graph::getGlx(vertex *)
+ Examople: 
+    double xDraw = getGlx(&vertices[0]);
  Pre: the vertices vector must be populated, so each vertex has an xpos
  Post: nothing
  */
@@ -476,11 +480,14 @@ double Graph::getGly(vertex * ver)
 }
 //Map Drawing
 /*
- Description:
+ Description: For each vertex and every adjcent vertex to that vertex, this function draws the lines between vertices and
+ their adjacent spaces. Also drawMap creates the hexagonal nodes at the vericies. It uses the drwaNode method and the drawLine
+ method.
  Proto: void drawMap()
  Example Call:
- Pre:
- Post:
+    G.drawMap();
+ Pre: the map must be populated
+ Post: nothing
  */
 
 void Graph::drawMap()
@@ -506,13 +513,14 @@ void Graph::drawMap()
 
 //Drawing Connecting Lines (drawing the paths of the graph with OpenGL)
 /*
-Description:
+Description: Draws a line between 2 pionts on the graph which is really a thin rectangle.
 Proto: void drawLine(vertex *,vertex *, double)
 Example Call:
-Pre:
-Post:
+    drawLine(&vertices[i], vertices[i].adj[j].v, 0.01)
+Pre: the location and position information of the starting and terminal vertices must be set. Also
+this method is really only called no adjVertices to a vertex because it requires that they be adjacent.
+Post: nothing
 */
-
 void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
 {
     if( ver1 != NULL && ver2 != NULL)
@@ -630,6 +638,14 @@ void Graph::drawLine(vertex * ver1, vertex * ver2, double thickness)
         }
     }
 }
+/*
+ Description: For a vertex it draws a node.
+ Proto: void Graph::drawNode(vertex*,double);
+ Example Call:
+    G.drawNode(&vertices[0],.3);
+ Pre: the map must be populated
+ Post: nothing
+ */
 void Graph::drawNode(vertex* ver, double _size) // can handle a null pointer
 {
     double inXpos = getGlx(ver);
@@ -654,6 +670,14 @@ void Graph::drawNode(vertex* ver, double _size) // can handle a null pointer
         std::cout << DRAW_ERROR << std::endl;
     }
 }
+/*
+ Description: Given information on mouse positon and screen size returns the pionter to the space being clikced if it exists.
+ Proto: vertex * Graph::getClickedNode(int,int,int,int)
+ Example Call:
+    getClickedNode(400,500,1000,1000);
+ Pre: the map must be populated
+ Post: nothing
+ */
 vertex * Graph::getClickedNode(int mouseX, int mouseY, int height, int width)
 {
    int xBin = width/12;
