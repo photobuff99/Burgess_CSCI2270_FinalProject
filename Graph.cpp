@@ -147,7 +147,7 @@ void Graph::createMap(std::string mapFileName)
     creatMapHelper("map.txt")
     All of the grahp information is now in the graph.
  Pre: graph file ("map.txt") must be formated in the correct way
- Post: vertices is populated and all edge,position and adjacency information 
+ Post: vertices is populated and all edge,position and adjacency information
  */
 bool Graph::createMapHelper(std::string mapFileName)
 {
@@ -233,6 +233,7 @@ bool Graph::createMapHelper(std::string mapFileName)
     }
     mapFile.close();
     comp1 = &vertices[0];
+    comp2 = &vertices[30];
     player = &vertices[50];
     win = &vertices[19];
     return true;
@@ -243,12 +244,12 @@ bool Graph::createMapHelper(std::string mapFileName)
  clock-wise until you reach the space before the one you started at (7). This function is called
  by createMapHelper.
  Proto: int Graph::findLocation(unsigned,unsigned)
- Example: 
- 
+ Example:
+
     int location = findLocation(&vertices[3], vertices[3].adj[1].v);
-    location then has value 0 meaning the adjacent vertex to vertices[3], vertices[3].adj[1].v, 
+    location then has value 0 meaning the adjacent vertex to vertices[3], vertices[3].adj[1].v,
     is located in the top-left compared to vertices[0].
-    
+
  int Graph()
  Pre: vertices must be populated, and should only be called for a vertex and its adjacent not
  Post: adjvertex varible loction is set to the found value
@@ -322,11 +323,11 @@ int Graph::getNumCommas(std::string line)
  from the line it has been given.
  Proto: string Graph::getCommaSeparatedWord(string *)
  Example:
-    
+
     string token = "joe,bob,";
     string token2 = getCommaSeparatedWord(&token);
     token now is "bob," and token2 is "joe".
-    
+
  Pre: string that it is given should have a comma in it
  Post: string given is now a substring with first comma separated value removed
  */
@@ -428,7 +429,7 @@ vertex* Graph::shortestPath(vertex * start, vertex * ending)
  Proto: vertex*  getNextMove(vertex *)
  Example:
     getNextMove(&vertices[0]);
-    After the shortest path between comp1 and &vertices[0] has been calculated getNextMove would return 
+    After the shortest path between comp1 and &vertices[0] has been calculated getNextMove would return
     the first step to move toward &vertices[0].
  Pre: shortestPath must be called first, with the arugments of start = computer's vertex and ending = player's vertex
  Post: nothing
@@ -674,12 +675,12 @@ vertex * Graph::getClickedNode(int mouseX, int mouseY, int height, int width)
 //Draw Player
 /*
  Description: Draws the player using opengl functions and the position based on the vertex that is passed, which will be the vertex corresponding to where the mouse was clicked.
- 
+
  Proto: void drawPlayer(vertex *, int, int, int, float, int int)
 
- Example: 
+ Example:
     drawPlayer(vertex1, -128, -128, 127, 0.05, width, height) //R, G, B are used to color it, _size determines size of the player, width and height are the width and height of the screen
- 
+
  Pre: The graph has to be populated; CreateGraph() would have to have been called.
 
  Post: nothing
@@ -753,25 +754,26 @@ bool Graph::isMoveAdj(vertex * ver)
 /*
  Description:
  Takes in the current mouse position when clicked, and the width and height of the screen, and checks if the vertex corresponding to the area square clicked
- is an adjacent vertex to the current position of the player vertex. If it is, it will draw the player 
- in the new position and draw the computer's next position based on the shortest path algorithm. 
+ is an adjacent vertex to the current position of the player vertex. If it is, it will draw the player
+ in the new position and draw the computer's next position based on the shortest path algorithm.
  If the vertex clicked is not an adjacent vertex, it doesn't draw anything.
- 
+
  Proto: bool advGamestate(int, int, int, int)
- 
+
  Example Call: advGamestate(X, Y, height, widtH)
- 
+
  Pre: Presupposes that the mouse has been clicked.
- 
+
  Post: Location of comp1 an player mqy be changed along with any pVector varibles on the path between the two.
- 
- 
+
+
  */
 
 void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes start pos set
 {
     vertex * playerMove;
     vertex * temp;
+    // vertex * temp1;
     std::cout << comp1->id << std::endl;
 
     playerMove = getClickedNode(mouseX,mouseY,height,width);
@@ -792,18 +794,19 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
         }
         std::cout << "Player: " << player->id << std::endl;
         std::cout << "Comp: " << comp1->id << std::endl;
-        
-        
-       
+
+
+
         temp = shortestPath(comp1,player);
-        std::cout << temp ->id << std::endl;
         comp1 = getNextMove(temp);
         drawPlayer(comp1,70,45,45,.07, width, height);
-    
-        
-        
-        
-        
+        std::cout << temp ->id << std::endl;
+        temp = shortestPath(comp2,player);
+        comp2 = getNextMove(temp);
+        drawPlayer(comp2,70,45,45,.07, width, height);
+        std::cout << temp ->id << std::endl;
+
+
         if(isLoss())
         {
              //glfwDestroyWindow(window);
@@ -822,15 +825,15 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
  draws the win node every frame.
  draws the player each time based on what player, width, and height, are at the time.
  draws the computer each time based on what comp1, width, and height, are at the time.
- 
+
  Proto: void setup(int, int)
- 
+
  Example Call: G.setup(width, height)
- 
+
  Pre: Presupposes player and comp1 vertex have been set to something. Also presupposes that width and height have been set to something.
- 
+
  Post: nothing
- 
+
  */
 
 void Graph::setup(int width, int height)
@@ -840,7 +843,9 @@ void Graph::setup(int width, int height)
     glColor3b(41,44,91);
     drawPlayer(player,41, 44,91,.07, width, height); //stagnant color
     glColor3b(70,45,45);
-    drawPlayer(comp1,70,45,45,.07, width, height); //stagnant color
+    drawPlayer(comp1,70,45,45,.07, width, height);
+    glColor3b(70,45,45);
+    drawPlayer(comp2,70,45,45,.07, width, height); //stagnant color
 
 }
 
@@ -859,7 +864,7 @@ bool Graph::isWin()
 //checks for loss
 bool Graph::isLoss()
 {
-    if(player == comp1)
+    if(player == comp1 or player == comp2)
     {
         return true;
     }
