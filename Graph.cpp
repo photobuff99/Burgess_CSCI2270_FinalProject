@@ -234,8 +234,8 @@ bool Graph::createMapHelper(std::string mapFileName)
     mapFile.close();
     //starting places
     comp1 = &vertices[0];
-    comp2 = &vertices[72];
-    player = &vertices[50];
+    comp2 = &vertices[55];
+    player = &vertices[45];
     win = &vertices[19];
     return true;
 }
