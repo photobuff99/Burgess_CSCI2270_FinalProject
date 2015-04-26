@@ -795,9 +795,14 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
         }
         std::cout << "Player: " << player->id << std::endl;
         std::cout << "Comp: " << comp1->id << std::endl;
-
-
-
+        if( comp1 == comp2) // If the comps merge now they move apart again
+        {
+            comp1 = comp1->adj[0].v;
+            drawPlayer(comp1,70,45,45,.07, width, height);
+            drawPlayer(comp2,70,45,45,.07, width, height);
+        }
+        else
+        {
         temp = shortestPath(comp1,player);
         comp1 = getNextMove(temp);
         drawPlayer(comp1,70,45,45,.07, width, height);
@@ -806,7 +811,7 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
         comp2 = getNextMove(temp);
         drawPlayer(comp2,70,45,45,.07, width, height);
         std::cout << temp ->id << std::endl;
-
+        }
 
         if(isLoss())
         {
