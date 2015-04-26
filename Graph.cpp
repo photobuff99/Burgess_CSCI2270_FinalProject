@@ -7,7 +7,7 @@ const std::string FILE_OPEN_ERROR = "File did not open, map not populated";
 const std::string DRAW_ERROR = "Something that did not draw...";
 const std::string NULL_ERROR = "Something was NULL";
 
-//Descriptions are before the function.
+//Descriptions are before the functions
 
 Graph::Graph()
 {
@@ -112,13 +112,6 @@ int Graph::getId(int vertexIndex) //getter that gets ID
 }
 
 // Checkers
-/*
- Description: Given an index in the Vertices vector it checks if it is within the vector
- Proto: void drawLine(vertex *,vertex *, double)
- Example Call:
- Pre:
- Post:
- */
 bool Graph::isInVertices(unsigned index)
 {
     if (index < vertices.size())
@@ -136,11 +129,10 @@ bool Graph::isInVertices(unsigned index)
 /*
  Takes the name of the map file and populates the graph with the nodes, edges and location information
  Proto: void createMap(string)
-
  Example Call:
-
+    creatMapHelper("map.txt")
+    All of the grahp information is now in the graph.
  Pre: graph file must be formated in the correct way
-
  Post: vertices is populated and all edge and adjacency information is held is vector of adjVertex
  */
 void Graph::createMap(std::string mapFileName)
@@ -151,12 +143,11 @@ void Graph::createMap(std::string mapFileName)
 /*
  Takes the name of the map file and populates the graph with the nodes, edges and location information
  Proto: void createMap(string)
-
  Example Call:
-
- Pre: graph file must be formated in the correct way
-
- Post: vertices is populated and all edge and adjacency information is held is vector of adjVertex
+    creatMapHelper("map.txt")
+    All of the grahp information is now in the graph.
+ Pre: graph file ("map.txt") must be formated in the correct way
+ Post: vertices is populated and all edge,position and adjacency information 
  */
 bool Graph::createMapHelper(std::string mapFileName)
 {
@@ -168,7 +159,7 @@ bool Graph::createMapHelper(std::string mapFileName)
     {
         std::string line;
         std::string token;
-        std::vector<std::vector<int> > mapVec {{-1}};
+        std::vector<std::vector<int> > mapVec {{-1}}; // Text file is read into 2-D vector for information extraction
         mapVec.pop_back();
 
         // int numEntry = 0;
@@ -222,7 +213,7 @@ bool Graph::createMapHelper(std::string mapFileName)
             for(unsigned j = 0; j < vertices[i].adj.size();j++)
                 {
 
-                    vertices[i].adj[j].location = findLocation(i,j);
+                    vertices[i].adj[j].location = findLocation(i,j); // This step tells us how to draw the lines latter
                 }
         }
         /*for (unsigned i = 0; i < vertices.size(); i++)
@@ -248,11 +239,18 @@ bool Graph::createMapHelper(std::string mapFileName)
 }
 /*
  Given the index of a vertex and one of its adjcent vertices, finds the location of the adj vertex
- denoted by an int 0-7. The adjacent spaces to a vertex are labed for the top-left corner(0) moving
+ denoted by an int 0-7. The adjacent spaces to a vertex are labed form the top-left corner(0) moving
  clock-wise until you reach the space before the one you started at (7). This function is called
  by createMapHelper.
- Proto: int findLocation(unsigned,unsigned)
- Pre: vertices must be populated
+ Proto: int Graph::findLocation(unsigned,unsigned)
+ Example: 
+ 
+    int location = findLocation(&vertices[3], vertices[3].adj[1].v);
+    location then has value 0 meaning the adjacent vertex to vertices[3], vertices[3].adj[1].v, 
+    is located in the top-left compared to vertices[0].
+    
+ int Graph()
+ Pre: vertices must be populated, and should only be called for a vertex and its adjacent not
  Post: adjvertex varible loction is set to the found value
  */
 int Graph::findLocation(unsigned verIndex, unsigned adjVerIndex)
@@ -303,7 +301,7 @@ int Graph::findLocation(unsigned verIndex, unsigned adjVerIndex)
 }
 /*
  Given a string this function gives back the number of commas. This function is called by createMapHelper.
- Proto: int getNumCommas(string)
+ Proto: int Graph::getNumCommas(string)
  Pre: nothing
  Post: nothing
  */
@@ -322,9 +320,15 @@ int Graph::getNumCommas(std::string line)
 /*
  Given a string it returns a substring of everything before the first comma it encounters and then removes that substring
  from the line it has been given.
- Proto: string getCommaSeparatedWord(string *)
- Pre: string it is given should have a comma in it
- Post: string given is now substring with first comma separated value removed
+ Proto: string Graph::getCommaSeparatedWord(string *)
+ Example:
+    
+    string token = "joe,bob,";
+    string token2 = getCommaSeparatedWord(&token);
+    token now is "bob," and token2 is "joe".
+    
+ Pre: string that it is given should have a comma in it
+ Post: string given is now a substring with first comma separated value removed
  */
 std::string Graph::getCommaSeparatedWord(std::string *_line)
 {
@@ -342,8 +346,7 @@ std::string Graph::getCommaSeparatedWord(std::string *_line)
 // Others
 /*
  Given a vertex's id findVertex returns the index in the vector vertices of that vertex
- Proto: int getNumCommas(int)
- Example Call:
+ Proto: int Graph::findVertex(int)
  Pre: nothing
  Post: nothing
  */
@@ -368,15 +371,12 @@ int Graph::findVertex(int inId)
 /*
  Description: Given pionters to the start and end vertex's the function finds the shortest path between them and returns
  the ending vertex's address.
-
  Proto: vertex* shortestPath(vertex *,vertex *)
  Example Call:
-
+    The computer calls shortestPath(comp1,player); every time the players moves inorder to get the path to the player
  Pre: the vertices vector must be populated
-
- Post: each vertex's pVertex varible is set to the address of the perivous vertex, the path can be extracted by starting
- at the terminal index and moving back through pVertex's until you get to the starting vertex.
-
+ Post: each vertex's pVertex varible is set to the address of the perivous vertex visited, the path can be extracted by starting
+ at the terminal vertex and moving back through pVertex's until you get to the starting vertex.
  */
 vertex* Graph::shortestPath(vertex * start, vertex * ending)
 {
@@ -426,7 +426,11 @@ vertex* Graph::shortestPath(vertex * start, vertex * ending)
  Finds the next move that the computer player should take towards the location of the human player,
  takes the vertex of the human player and returns the vertex of where the computer should move next.
  Proto: vertex*  getNextMove(vertex *)
- Pre: shortestPath must be call first, with the arugments of start = computer's vertex and ending = player's vertex
+ Example:
+    getNextMove(&vertices[0]);
+    After the shortest path between comp1 and &vertices[0] has been calculated getNextMove would return 
+    the first step to move toward &vertices[0].
+ Pre: shortestPath must be called first, with the arugments of start = computer's vertex and ending = player's vertex
  Post: nothing
  */
 vertex* Graph::getNextMove(vertex * terminalVer)
@@ -673,11 +677,12 @@ vertex * Graph::getClickedNode(int mouseX, int mouseY, int height, int width)
  
  Proto: void drawPlayer(vertex *, int, int, int, float, int int)
 
- Example Call: drawPlayer(vertex1, -128, -128, 127, 0.05, width, height) //R, G, B are used to color it, _size determines size of the player, width and height are the width and height of the screen
+ Example: 
+    drawPlayer(vertex1, -128, -128, 127, 0.05, width, height) //R, G, B are used to color it, _size determines size of the player, width and height are the width and height of the screen
  
  Pre: The graph has to be populated; CreateGraph() would have to have been called.
 
- Post:
+ Post: nothing
 
  */
 void Graph::drawPlayer(vertex* ver, int R, int G, int B , float _size, int width, int height)
@@ -717,7 +722,7 @@ void Graph::drawPlayer(vertex* ver, int R, int G, int B , float _size, int width
 
  Pre: The graph has to be populated. CreateGraph() would have to have been called.
 
- Post:
+ Post: nothing
 
  */
 
@@ -747,7 +752,10 @@ bool Graph::isMoveAdj(vertex * ver)
 
 /*
  Description:
- Takes in the current mouse position when clicked, and the width and height of the screen, and checks if the vertex corresponding to the area square clicked is an adjacent vertex to the current position of the player vertex. If it is, it will draw the player in the new position and draw the computer's next position based on the shortest path algorithm. If the vertex clicked is not an adjacent vertex, it doesn't draw anything.
+ Takes in the current mouse position when clicked, and the width and height of the screen, and checks if the vertex corresponding to the area square clicked
+ is an adjacent vertex to the current position of the player vertex. If it is, it will draw the player 
+ in the new position and draw the computer's next position based on the shortest path algorithm. 
+ If the vertex clicked is not an adjacent vertex, it doesn't draw anything.
  
  Proto: bool advGamestate(int, int, int, int)
  
@@ -755,7 +763,7 @@ bool Graph::isMoveAdj(vertex * ver)
  
  Pre: Presupposes that the mouse has been clicked.
  
- Post:
+ Post: Location of comp1 an player mqy be changed along with any pVector varibles on the path between the two.
  
  
  */
@@ -821,7 +829,7 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
  
  Pre: Presupposes player and comp1 vertex have been set to something. Also presupposes that width and height have been set to something.
  
- Post:
+ Post: nothing
  
  */
 
