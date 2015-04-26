@@ -27,8 +27,8 @@ void drawBackground();
 
 int main(int argc, char * argv[])
 {
-    int width = 1000;
-    int height = 1000;
+    int width = 600;
+    int height = 400;
     GLFWwindow* window;
     glfwSetErrorCallback(error_callback);
     if (!glfwInit())
@@ -47,7 +47,7 @@ int main(int argc, char * argv[])
     double A = 0;
     double B = 0;
     int state = 0;
-    Graph G = Graph("map2.txt");
+    Graph G = Graph("map3.txt");
     //int squareState = -1; //-1 so it's never equal to a node at first
     while (!glfwWindowShouldClose(window))
     {

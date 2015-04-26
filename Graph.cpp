@@ -667,14 +667,14 @@ vertex * Graph::getClickedNode(int mouseX, int mouseY, int height, int width)
    }
    return NULL;
 }
-//Game Play
+//Draw Player
 /*
- Description:
-.
-
+ Description: Draws the player using opengl functions and the position based on the vertex that is passed, which will be the vertex corresponding to where the mouse was clicked.
+ 
  Proto: void drawPlayer(vertex *, int, int, int, float, int int)
 
- Example Call: drawPlayer(vertex1, -128, -128, 127,  )
+ Example Call: drawPlayer(vertex1, -128, -128, 127, 0.05, width, height) //R, G, B are used to color it, _size determines size of the player, width and height are the width and height of the screen
+ 
  Pre: The graph has to be populated; CreateGraph() would have to have been called.
 
  Post:
@@ -687,7 +687,7 @@ void Graph::drawPlayer(vertex* ver, int R, int G, int B , float _size, int width
     double inXpos = getGlx(ver);
     double inYpos = getGly(ver);
     glBegin(GL_TRIANGLE_FAN);
-    glColor3b(R,G,B);
+    glColor3b(R,G,B); //R, G, B each range from -128 to 127,
     glVertex2d(inXpos,inYpos);
         for(int i =0; i <= 100; i++)
         {
@@ -715,7 +715,7 @@ void Graph::drawPlayer(vertex* ver, int R, int G, int B , float _size, int width
 
  Example Call: isMoveAdj(mouseClickMove) If mouseClickMove was the corresponding node where the mouse was clicked.
 
- Pre: The graph has to be populated; CreateGraph() would have to have been called.
+ Pre: The graph has to be populated. CreateGraph() would have to have been called.
 
  Post:
 
@@ -742,6 +742,24 @@ bool Graph::isMoveAdj(vertex * ver)
     }
     return false;
 }
+
+//Game State
+
+/*
+ Description:
+ Takes in the current mouse position when clicked, and the width and height of the screen, and checks if the vertex corresponding to the area square clicked is an adjacent vertex to the current position of the player vertex. If it is, it will draw the player in the new position and draw the computer's next position based on the shortest path algorithm. If the vertex clicked is not an adjacent vertex, it doesn't draw anything.
+ 
+ Proto: bool advGamestate(int, int, int, int)
+ 
+ Example Call: advGamestate(X, Y, height, widtH)
+ 
+ Pre: Presupposes that the mouse has been clicked.
+ 
+ Post:
+ 
+ 
+ */
+
 void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes start pos set
 {
     vertex * playerMove;
@@ -766,11 +784,18 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
         }
         std::cout << "Player: " << player->id << std::endl;
         std::cout << "Comp: " << comp1->id << std::endl;
+        
+        
+       
         temp = shortestPath(comp1,player);
         std::cout << temp ->id << std::endl;
         comp1 = getNextMove(temp);
-        drawPlayer(comp1,70,45,45,.07, width, height); //blink color
-
+        drawPlayer(comp1,70,45,45,.07, width, height);
+    
+        
+        
+        
+        
         if(isLoss())
         {
              //glfwDestroyWindow(window);
@@ -782,6 +807,24 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
 
     }
 }
+//Saving the Drawing on the Screen
+
+/*
+ Description:
+ draws the win node every frame.
+ draws the player each time based on what player, width, and height, are at the time.
+ draws the computer each time based on what comp1, width, and height, are at the time.
+ 
+ Proto: void setup(int, int)
+ 
+ Example Call: G.setup(width, height)
+ 
+ Pre: Presupposes player and comp1 vertex have been set to something. Also presupposes that width and height have been set to something.
+ 
+ Post:
+ 
+ */
+
 void Graph::setup(int width, int height)
 {
     glColor3b(121,112,88); // win node color
@@ -792,6 +835,8 @@ void Graph::setup(int width, int height)
     drawPlayer(comp1,70,45,45,.07, width, height); //stagnant color
 
 }
+
+//checks for win
 bool Graph::isWin()
 {
     if(player == win)
@@ -803,6 +848,7 @@ bool Graph::isWin()
         return false;
     }
 }
+//checks for loss
 bool Graph::isLoss()
 {
     if(player == comp1)
