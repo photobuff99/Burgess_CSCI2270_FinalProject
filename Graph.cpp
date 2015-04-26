@@ -232,7 +232,7 @@ bool Graph::createMapHelper(std::string mapFileName)
         return false;
     }
     mapFile.close();
-    //starting places
+    //starting places for the computer and player
     comp1 = &vertices[0];
     comp2 = &vertices[55];
     player = &vertices[45];
@@ -656,7 +656,7 @@ void Graph::drawNode(vertex* ver, double _size) // can handle a null pointer
         glVertex2d(inXpos,inYpos);
         for(int i =0; i <= 6; i++)
         {
-            double angle = 2 * 3.14159 * i / 6;
+            double angle = 2 * 3.14159 * i / 6;// Nodes are hexagons
             double x = cos(angle);
             double y = sin(angle);
             glVertex2d(x*_size + inXpos,y*(_size*1.3) + inYpos); //1.3 close to 1.5 which is 600/400
@@ -742,7 +742,7 @@ void Graph::drawPlayer(vertex* ver, int R, int G, int B , float _size, int width
  checks if the vertex is a valid adjacent vertex of player.
  This function uses player without passing it as an argument.
 
- Proto: bool isMoveAdj(vertex *)
+ Proto: bool Graph::isMoveAdj(vertex *)
 
  Example Call: isMoveAdj(mouseClickMove) If mouseClickMove was the corresponding node where the mouse was clicked.
 
@@ -759,7 +759,7 @@ bool Graph::isMoveAdj(vertex * ver)
 {
     if( ver != NULL)
     {
-    for(int i = 0; i < player->adj.size();i++)
+    for(unsigned i = 0; i < player->adj.size();i++)
     {
         if( ver == player->adj[i].v )
         {
@@ -790,10 +790,7 @@ bool Graph::isMoveAdj(vertex * ver)
  Pre: Presupposes that the mouse has been clicked.
 
  Post: Location of comp1 an player mqy be changed along with any pVector varibles on the path between the two.
-
-
- */
-
+*/
 void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes start pos set
 {
     vertex * playerMove;
@@ -860,7 +857,7 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
 
  Example Call: G.setup(width, height)
 
- Pre: Presupposes player and comp1 vertex have been set to something. Also presupposes that width and height have been set to something.
+ Pre: Presupposes player,comp1 and comp1 vertex have been set to something. Also presupposes that width and height have been set to something.
 
  Post: nothing
 
