@@ -428,7 +428,7 @@ vertex* Graph::shortestPath(vertex * start, vertex * ending)
 /*
  Finds the next move that the computer player should take towards the location of the human player,
  takes the vertex of the human player and returns the vertex of where the computer should move next.
- It works by using a stack to reverse the path linked list*/
+ It works by using a stack to reverse the path linked list.
  Proto: vertex*  getNextMove(vertex *)
  Example:
     getNextMove(&vertices[0]);
@@ -456,7 +456,7 @@ vertex* Graph::getNextMove(vertex * terminalVer)
 /*
  Given a vertex the getGlx method converts its xpos to a gl distance between -1 and 1 and returns it
  Proto: double Graph::getGlx(vertex *)
- Examople: 
+ Examople:
     double xDraw = getGlx(&vertices[0]);
  Pre: the vertices vector must be populated, so each vertex has an xpos
  Post: nothing
@@ -799,7 +799,7 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
     vertex * playerMove;
     vertex * temp;
     // vertex * temp1;
-    std::cout << comp1->id << std::endl;
+    //std::cout << comp1->id << std::endl;
 
     playerMove = getClickedNode(mouseX,mouseY,height,width);
     //puts node that corresponds with where mouse was clicked, into the temp vertex playerMove
@@ -830,11 +830,11 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
         temp = shortestPath(comp1,player);
         comp1 = getNextMove(temp);
         drawPlayer(comp1,70,45,45,.07, width, height);
-        std::cout << temp ->id << std::endl;
+        //std::cout << temp ->id << std::endl;
         temp = shortestPath(comp2,player);
         comp2 = getNextMove(temp);
         drawPlayer(comp2,70,45,45,.07, width, height);
-        std::cout << temp ->id << std::endl;
+        //std::cout << temp ->id << std::endl;
         }
 
         if(isLoss())
