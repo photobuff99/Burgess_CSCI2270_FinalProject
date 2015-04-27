@@ -444,11 +444,11 @@ vertex* Graph::getNextMove(vertex * terminalVer)
     u = terminalVer;
     while( u != NULL)
     {
-        std::cout << " S: " << u->id;
+       //std::cout << " S: " << u->id;
         S.push(u);
         u = u->pVertex;
     }
-    std::cout << std::endl;
+    //std::cout << std::endl;
     S.pop();
     return S.top();
 }
@@ -807,7 +807,7 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
     {
         player = playerMove;
         drawPlayer(player,41,44,91,.07, width, height);
-        if(isWin())
+        if(isWin())// Is this move a win?
         {
              //glfwDestroyWindow(window);
              std::cout << "You Won :)" << std::endl;
@@ -815,7 +815,9 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
              exit(EXIT_SUCCESS);
         }
         std::cout << "Player: " << player->id << std::endl;
-        std::cout << "Comp: " << comp1->id << std::endl;
+        std::cout << "Comp1: " << comp1->id << std::endl;
+	std::cout << "Comp2: " << comp2->id << std::endl;
+	// Move the computers
         if( comp1 == comp2) // If the comps merge now they move apart again
         {
             comp1 = comp1->adj[0].v;
@@ -834,7 +836,7 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
         //std::cout << temp ->id << std::endl;
         }
 
-        if(isLoss())
+        if(isLoss())//Is this a loss?
         {
              //glfwDestroyWindow(window);
              std::cout << "You Lost :(" << std::endl;
