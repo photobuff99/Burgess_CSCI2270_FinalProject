@@ -806,6 +806,12 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
     if(isMoveAdj(playerMove))
     {
         player = playerMove;
+        if(isLoss()) // Check if player killed themselves by moving into the computer player;
+        {
+             std::cout << "You Lost :(" << std::endl;
+             glfwTerminate();
+             exit(EXIT_SUCCESS);
+        }
         drawPlayer(player,41,44,91,.07, width, height);
         if(isWin())// Is this move a win?
         {
@@ -816,8 +822,8 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
         }
         std::cout << "Player: " << player->id << std::endl;
         std::cout << "Comp1: " << comp1->id << std::endl;
-	std::cout << "Comp2: " << comp2->id << std::endl;
-	// Move the computers
+        std::cout << "Comp2: " << comp2->id << std::endl;
+        // Move the computers
         if( comp1 == comp2) // If the comps merge now they move apart again
         {
             comp1 = comp1->adj[0].v;
