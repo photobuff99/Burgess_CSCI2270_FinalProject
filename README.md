@@ -19,5 +19,5 @@
 <h2>Open Issues/Bugs</h2>
 <p> If the player attempts to eat the computer, the program will seg fault. We suppose this has something to do with the shortest path algorithm. </p>
 TODO
-1. Comment/explain methods and main programe
+<p>Comment/explain methods and main programe</p>
 
