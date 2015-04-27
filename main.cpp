@@ -6,7 +6,8 @@
 #include <cmath>
 #include "Graph.h"
 
-static void error_callback(int error, const char* description)
+// error handling for the GLFW library
+static void error_callback(int error, const char* description) 
 {
     fputs(description, stderr);
 }
@@ -29,17 +30,17 @@ int main(int argc, char * argv[])
 {
     int width = 600;
     int height = 400;
-    GLFWwindow* window;
+    GLFWwindow* window; 
     glfwSetErrorCallback(error_callback);
     if (!glfwInit())
         exit(EXIT_FAILURE);
-    window = glfwCreateWindow(width, height, "Exp_Game", NULL, NULL);
+    window = glfwCreateWindow(width, height, "Exp_Game", NULL, NULL); // create the game window
     if (!window)
     {
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
-    glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(window); // Tell GLFW to draw in that window
     glfwSwapInterval(1);
     glfwSetKeyCallback(window, key_callback);
     double X = 0;
@@ -47,11 +48,12 @@ int main(int argc, char * argv[])
     double A = 0;
     double B = 0;
     int state = 0;
-    Graph G = Graph("map3.txt");
+    Graph G = Graph("map3.txt"); // populate map from map#.txt
     //int squareState = -1; //-1 so it's never equal to a node at first
-    while (!glfwWindowShouldClose(window))
+    while (!glfwWindowShouldClose(window))// while the game is running
     {
         //float ratio;
+        // Veiw piont and draw mode are set
         int width, height;
         glfwGetFramebufferSize(window, &width, &height);
         //ratio = width / (float) height;
@@ -62,7 +64,7 @@ int main(int argc, char * argv[])
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         drawBackground();
-        G.drawMap();
+        G.drawMap(); // Draws the map from the information in the graph
 
         glEnd();
 
@@ -71,7 +73,7 @@ int main(int argc, char * argv[])
 
         //glBegin(GL_TRIANGLES)
         G.setup(width, height);
-        if (state == GLFW_PRESS)
+        if (state == GLFW_PRESS) // if you click
         {
             currentDrawState(X, Y, width, height);
             A = X;
