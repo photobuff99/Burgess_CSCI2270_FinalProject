@@ -19,6 +19,7 @@
 <h2>Group Members</h2>
 <p> Jacob Burgess and Jose Canizares </p>
 <h2>Contributors</h2>
+1.Jonathan Schmitt (fixed overdraw)
 <h2>Open Issues/Bugs</h2>
 <p> If the player attempts to eat the computer, the program will seg fault. We suppose this has something to do with the shortest path algorithm. </p>
 TODO
