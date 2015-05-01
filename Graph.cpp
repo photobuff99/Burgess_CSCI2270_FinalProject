@@ -498,7 +498,11 @@ void Graph::drawMap()
 
         for (unsigned j = 0; j < vertices[i].adj.size(); j++)
         {
-            drawLine(&vertices[i], vertices[i].adj[j].v, 0.01);
+	       //if adjacent node is to the top right, right, bottom right, or bottom of node then draws
+        	if (vertices[i].adj[j].v->xpos==vertices[i].xpos+1||(vertices[i].adj[j].v->xpos==vertices[i].xpos&&vertices[i].adj[j].v->ypos==vertices[i].ypos+1)){
+                 drawLine(&vertices[i], vertices[i].adj[j].v, 0.01);
+	        }
+            
         }
         glColor3b(207, 52, 0); // Connection colors
         drawNode(&vertices[i], .04);
