@@ -233,9 +233,9 @@ bool Graph::createMapHelper(std::string mapFileName)
     }
     mapFile.close();
     //starting places for the computer and player
-    comp1 = &vertices[0];
-    comp2 = &vertices[55];
-    player = &vertices[45];
+    //comp1 = &vertices[0];
+    //comp2 = &vertices[55];
+    player1 = &vertices[45];
     win = &vertices[19];
     return true;
 }
@@ -763,9 +763,9 @@ bool Graph::isMoveAdj(vertex * ver)
 {
     if( ver != NULL)
     {
-    for(unsigned i = 0; i < player->adj.size();i++)
+    for(unsigned i = 0; i < player1->adj.size();i++)
     {
-        if( ver == player->adj[i].v )
+        if( ver == player1->adj[i].v )
         {
             return true;
         }
@@ -797,26 +797,26 @@ bool Graph::isMoveAdj(vertex * ver)
 */
 void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes start pos set
 {
-    vertex * playerMove;
-    vertex * temp;
+    vertex * player1Move;
+    //vertex * temp;
     // vertex * temp1;
     //std::cout << comp1->id << std::endl;
 
-    playerMove = getClickedNode(mouseX,mouseY,height,width);
+    player1Move = getClickedNode(mouseX,mouseY,height,width);
     //puts node that corresponds with where mouse was clicked, into the temp vertex playerMove
 
 
     // std::cout << playerMove->id << std::cout;
-    if(isMoveAdj(playerMove))
+    if(isMoveAdj(player1Move))
     {
-        player = playerMove;
+        player1 = player1Move;
         if(isLoss()) // Check if player killed themselves by moving into the computer player;
         {
              std::cout << "You Lost :(" << std::endl;
              glfwTerminate();
              exit(EXIT_SUCCESS);
         }
-        drawPlayer(player,41,44,91,.07, width, height);
+        drawPlayer(player1,41,44,91,.07, width, height);
         if(isWin())// Is this move a win?
         {
              //glfwDestroyWindow(window);
@@ -824,10 +824,11 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
              glfwTerminate();
              exit(EXIT_SUCCESS);
         }
-        std::cout << "Player: " << player->id << std::endl;
-        std::cout << "Comp1: " << comp1->id << std::endl;
-        std::cout << "Comp2: " << comp2->id << std::endl;
+        std::cout << "Player: " << player1->id << std::endl;
+        //std::cout << "Comp1: " << comp1->id << std::endl;
+        //std::cout << "Comp2: " << comp2->id << std::endl;
         // Move the computers
+        /*
         if( comp1 == comp2) // If the comps merge now they move apart again
         {
             comp1 = comp1->adj[0].v;
@@ -845,6 +846,7 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
         drawPlayer(comp2,70,45,45,.07, width, height);
         //std::cout << temp ->id << std::endl;
         }
+        */
 
         if(isLoss())//Is this a loss?
         {
@@ -880,18 +882,18 @@ void Graph::setup(int width, int height)
     glColor3b(121,112,88); // win node color
     drawNode(win,.04);
     glColor3b(41,44,91);
-    drawPlayer(player,41, 44,91,.07, width, height); //stagnant color
-    glColor3b(70,45,45);
-    drawPlayer(comp1,70,45,45,.07, width, height);
-    glColor3b(70,45,45);
-    drawPlayer(comp2,70,45,45,.07, width, height); //stagnant color
+    drawPlayer(player1,41, 44,91,.07, width, height); //stagnant color
+    //glColor3b(70,45,45);
+    //drawPlayer(comp1,70,45,45,.07, width, height);
+    //glColor3b(70,45,45);
+    //drawPlayer(comp2,70,45,45,.07, width, height); //stagnant color
 
 }
 
 //checks for win
 bool Graph::isWin()
 {
-    if(player == win)
+    if(player1 == win)
     {
         return true;
     }
@@ -903,6 +905,7 @@ bool Graph::isWin()
 //checks for loss
 bool Graph::isLoss()
 {
+    /*
     if(player == comp1 or player == comp2)
     {
         return true;
@@ -911,5 +914,7 @@ bool Graph::isLoss()
     {
         return false;
     }
+    */
+    return false;
 }
 
