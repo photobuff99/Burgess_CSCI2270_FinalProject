@@ -1,10 +1,11 @@
 #include "Graph.h"
 #include <queue>
 #include <stack>
+#include <cstdlib>
 // Error Checking Messages
 const std::string INDEX_NOT_VALID = "Please choose a valid index";
 const std::string FILE_OPEN_ERROR = "File did not open, map not populated";
-const std::string DRAW_ERROR = "Something that did not draw...";
+const std::string DRAW_ERROR = "Something did not draw...";
 const std::string NULL_ERROR = "Something was NULL";
 
 //Note:Descriptions are before the functions
@@ -437,20 +438,46 @@ vertex* Graph::shortestPath(vertex * start, vertex * ending)
  Pre: shortestPath must be called first, with the arugments of start = computer's vertex and ending = player's vertex
  Post: nothing
  */
-vertex* Graph::getNextMove(vertex * terminalVer)
+vertex* Graph::getNextMove(vertex * terminalVer, vertex * otherCompMove)
 {
-    vertex *u;
-    std::stack<vertex*> S;
-    u = terminalVer;
-    while( u != NULL)
+    if(otherCompMove == NULL) // If is first comp to go then otherCompMove is NULL
     {
-       //std::cout << " S: " << u->id;
-        S.push(u);
-        u = u->pVertex;
+        if(comp1 == comp2)
+        {
+            int index = rand() % comp1->adj.size();
+            return comp1->adj[index].v;
+        }
+        else
+        {
+            vertex *u;
+            std::stack<vertex*> S;
+            u = terminalVer;
+            while( u != NULL)
+            {
+                //std::cout << " S: " << u->id;
+                S.push(u);
+                u = u->pVertex;
+            }
+            //std::cout << std::endl;
+            S.pop();
+            return S.top();
+        }
     }
-    //std::cout << std::endl;
-    S.pop();
-    return S.top();
+    else // If we are the same it has ready been corrected let us move on our own
+    {
+        vertex *u;
+        std::stack<vertex*> S;
+        u = terminalVer;
+        while( u != NULL)
+        {
+        //std::cout << " S: " << u->id;
+            S.push(u);
+            u = u->pVertex;
+        }
+        //std::cout << std::endl;
+        S.pop();
+        return S.top();
+    }
 }
 // Drawing
 /*
@@ -502,7 +529,7 @@ void Graph::drawMap()
         	if (vertices[i].adj[j].v->xpos==vertices[i].xpos+1||(vertices[i].adj[j].v->xpos==vertices[i].xpos&&vertices[i].adj[j].v->ypos==vertices[i].ypos+1)){
                  drawLine(&vertices[i], vertices[i].adj[j].v, 0.01);
 	        }
-            
+
         }
         glColor3b(207, 52, 0); // Connection colors
         drawNode(&vertices[i], .04);
@@ -828,24 +855,15 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
         std::cout << "Comp1: " << comp1->id << std::endl;
         std::cout << "Comp2: " << comp2->id << std::endl;
         // Move the computers
-        if( comp1 == comp2) // If the comps merge now they move apart again
-        {
-            comp1 = comp1->adj[0].v;
-            drawPlayer(comp1,70,45,45,.07, width, height);
-            drawPlayer(comp2,70,45,45,.07, width, height);
-        }
-        else
-        {
+
         temp = shortestPath(comp1,player);
-        comp1 = getNextMove(temp);
+        comp1 = getNextMove(temp,NULL);
         drawPlayer(comp1,70,45,45,.07, width, height);
         //std::cout << temp ->id << std::endl;
         temp = shortestPath(comp2,player);
-        comp2 = getNextMove(temp);
+        comp2 = getNextMove(temp,comp1);
         drawPlayer(comp2,70,45,45,.07, width, height);
         //std::cout << temp ->id << std::endl;
-        }
-
         if(isLoss())//Is this a loss?
         {
              //glfwDestroyWindow(window);

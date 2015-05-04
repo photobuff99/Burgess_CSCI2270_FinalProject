@@ -87,7 +87,7 @@ class Graph
 
         // Path Finding
         vertex * shortestPath(vertex * start, vertex * ending);
-        vertex * getNextMove(vertex * terminalVer);
+        vertex * getNextMove(vertex * terminalVer,vertex * otherCompMove);
         //int path[MAP_SIZE];
         //Map Creation Helpers
         bool createMapHelper(std::string mapFileName);

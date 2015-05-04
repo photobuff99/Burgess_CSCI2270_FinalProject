@@ -7,7 +7,7 @@
 #include "Graph.h"
 
 // error handling for the GLFW library
-static void error_callback(int error, const char* description) 
+static void error_callback(int error, const char* description)
 {
     fputs(description, stderr);
 }
@@ -23,7 +23,7 @@ int main(int argc, char * argv[])
 {
     int width = 600;
     int height = 400;
-    GLFWwindow* window; 
+    GLFWwindow* window;
     glfwSetErrorCallback(error_callback);
     if (!glfwInit())
         exit(EXIT_FAILURE);
