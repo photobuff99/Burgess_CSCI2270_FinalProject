@@ -17,7 +17,7 @@
 <h2>System Requirements</h2>
 <p> Mac OSX or Lunix </p>
 <h2>Group Members</h2>
-<p> Jacob Burgess and Jose Canizares </p>
+<p>Jacob Burgess and Jose Canizares</p>
 <h2>Contributors</h2>
 1.Jonathan Schmitt (fixed overdraw)
 <h2>Open Issues/Bugs</h2>
