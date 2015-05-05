@@ -80,9 +80,10 @@ class Graph
         std::vector<vertex> vertices;
 
         // Computer and Human Players
-        vertex * player;
-        vertex * comp1;
-        vertex * comp2;
+        vertex * player1;
+        vertex * player2
+        //vertex * comp1;
+        //vertex * comp2;
         vertex * win;
 
         // Path Finding
