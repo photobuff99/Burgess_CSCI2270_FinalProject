@@ -41,7 +41,7 @@ int main(int argc, char * argv[])
     double A = 0;
     double B = 0;
     int state = 0;
-    bool yourTurn = false;
+    
     Graph G = Graph("map3.txt"); // populate map from map#.txt
     //int squareState = -1; //-1 so it's never equal to a node at first
     while (!glfwWindowShouldClose(window))// while the game is running
@@ -69,7 +69,7 @@ int main(int argc, char * argv[])
 
         //glBegin(GL_TRIANGLES)
         G.setup(width, height);
-        if (state == GLFW_PRESS && yourTurn == true) // if you click
+        if (state == GLFW_PRESS) // if you click
         {
             
             A = X;// store the position of the mouse
