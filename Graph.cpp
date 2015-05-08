@@ -429,10 +429,10 @@ vertex* Graph::shortestPath(vertex * start, vertex * ending)
 /*
  Finds the next move that the computer player should take towards the location of the human player,
  takes the vertex of the human player and returns the vertex of where the computer should move next.
- It works by using a stack to reverse the path linked list.
- Proto: vertex*  getNextMove(vertex *)
+ It works by using a stack to reverse the path linked list. Now it also takes the info of the the other computer player.
+ Proto: vertex*  getNextMove(vertex *, vertex*)
  Example:
-    getNextMove(&vertices[0]);
+    getNextMove(temp,comp1);
     After the shortest path between comp1 and &vertices[0] has been calculated getNextMove would return
     the first step to move toward &vertices[0].
  Pre: shortestPath must be called first, with the arugments of start = computer's vertex and ending = player's vertex
