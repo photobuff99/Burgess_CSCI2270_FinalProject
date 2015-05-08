@@ -900,6 +900,9 @@ void Graph::setup(int width, int height)
     drawNode(win,.04);
     glColor3b(41,44,91);
     drawPlayer(player,41, 44,91,.07, width, height); //stagnant color
+    
+    //drawPlayer(player2,41, 44,91,.07, width, height); //stagnant color
+    
     glColor3b(70,45,45);
     drawPlayer(comp1,70,45,45,.07, width, height);
     glColor3b(70,45,45);
