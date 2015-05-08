@@ -828,13 +828,14 @@ void Graph::advGamestate(int mouseX, int mouseY,int height,int width) // assumes
     vertex * temp;
     // vertex * temp1;
     //std::cout << comp1->id << std::endl;
-
+    
+    
     playerMove = getClickedNode(mouseX,mouseY,height,width);
     //puts node that corresponds with where mouse was clicked, into the temp vertex playerMove
 
 
     // std::cout << playerMove->id << std::cout;
-    if(isMoveAdj(playerMove))
+    if(isMoveAdj(playerMove)) //if mouse click is a valid click
     {
         player = playerMove;
         if(isLoss()) // Check if player killed themselves by moving into the computer player;

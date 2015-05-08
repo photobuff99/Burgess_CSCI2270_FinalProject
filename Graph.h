@@ -81,9 +81,11 @@ class Graph
 
         // Computer and Human Players
         vertex * player;
+        vertex *player2;
         vertex * comp1;
         vertex * comp2;
         vertex * win;
+        
 
         // Path Finding
         vertex * shortestPath(vertex * start, vertex * ending);
